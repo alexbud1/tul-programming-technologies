@@ -20,4 +20,9 @@
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DataLayerTests\" />
+      <Folder Include="LogicLayerTests\" />
+    </ItemGroup>
+
 </Project>

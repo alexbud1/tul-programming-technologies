@@ -10,11 +10,30 @@ public interface IDataRepository
     }
 
     List<ISupplier> GetSuppliers();
-    List<IProduct> GetProducts();
-    List<IEvent> GetEvents();
-    List<IOrderStatus> GetOrderStatuses();
     List<IShop> GetShops();
-    List<IOrder> GetOrders();
+
+    ISupplier GetSupplierById(string id);
+
+    IProduct GetProductById(string id);
+
+    IEvent GetEventById(string id);
+
+    IShop GetShopById(string id);
+
+    IOrder GetOrderById(string id);
 
     IOrderStatus GetOrderStatusByOrder(IOrder order);
+
+    void AddSupplier(ISupplier supplier);
+
+    void AddShop(IShop shop);
+
+    void AddProduct(IProduct product);
+
+    void AddEvent(IEvent @event);
+
+    void AddOrder(IOrder order);
+
+    void AddOrderStatus(IOrderStatus orderStatus);
+
 }

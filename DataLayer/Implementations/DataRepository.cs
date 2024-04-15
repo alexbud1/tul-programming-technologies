@@ -16,33 +16,68 @@ public class DataRepository: IDataRepository
         return _dataContext.Suppliers;
     }
 
-    public List<IProduct> GetProducts()
-    {
-        return _dataContext.Products;
-    }
-
-    public List<IEvent> GetEvents()
-    {
-        return _dataContext.Events;
-    }
-
-    public List<IOrderStatus> GetOrderStatuses()
-    {
-        return _dataContext.OrderStatuses;
-    }
-
     public List<IShop> GetShops()
     {
         return _dataContext.Shops;
     }
 
-    public List<IOrder> GetOrders()
-    {
-        return _dataContext.Orders;
-    }
-
     public IOrderStatus GetOrderStatusByOrder(IOrder order)
     {
         return _dataContext.OrderStatuses.FirstOrDefault(x => x.OrderId == order) ?? throw new Exception("Order status not found");
+    }
+
+    public ISupplier GetSupplierById(string id)
+    {
+        return _dataContext.Suppliers.FirstOrDefault(x => x.SupplierId == id) ?? throw new Exception("Supplier not found");
+    }
+
+    public IProduct GetProductById(string id)
+    {
+        return _dataContext.Products.FirstOrDefault(x => x.ProductId == id) ?? throw new Exception("Product not found");
+    }
+
+    public IEvent GetEventById(string id)
+    {
+        return _dataContext.Events.FirstOrDefault(x => x.EventId == id) ?? throw new Exception("Event not found");
+    }
+
+    public IShop GetShopById(string id)
+    {
+        return _dataContext.Shops.FirstOrDefault(x => x.ShopId == id) ?? throw new Exception("Shop not found");
+    }
+
+    public IOrder GetOrderById(string id)
+    {
+        return _dataContext.Orders.FirstOrDefault(x => x.OrderId == id) ?? throw new Exception("Order not found");
+    }
+
+    public void AddSupplier(ISupplier supplier)
+    {
+        _dataContext.Suppliers.Add(supplier);
+    }
+
+    public void AddShop(IShop shop)
+    {
+        _dataContext.Shops.Add(shop);
+    }
+
+    public void AddProduct(IProduct product)
+    {
+        _dataContext.Products.Add(product);
+    }
+
+    public void AddEvent(IEvent @event)
+    {
+        _dataContext.Events.Add(@event);
+    }
+
+    public void AddOrder(IOrder order)
+    {
+        _dataContext.Orders.Add(order);
+    }
+
+    public void AddOrderStatus(IOrderStatus orderStatus)
+    {
+        _dataContext.OrderStatuses.Add(orderStatus);
     }
 }

@@ -10,15 +10,22 @@ public class CancelOrder: IEvent
     public string Description { get; set; }
     public DateTime EventDate { get; set; }
 
-    public CancelOrder(IOrder order, IShop shop, DataRepository dataRepository)
+    public static CancelOrder CancelOrderExtra(IOrder order, IShop shop, IDataRepository dataRepository)
+    {
+        var cancelOrder =  new CancelOrder(order, shop, dataRepository);
+        var orderStatus = dataRepository.GetOrderStatusByOrder(order);
+        orderStatus.Status = OrderStatusEnum.Cancelled;
+        dataRepository.UpdateOrderStatus(orderStatus);
+
+        return cancelOrder;
+    }
+
+    private CancelOrder(IOrder order, IShop shop, IDataRepository dataRepository)
     {
         EventId = Guid.NewGuid().ToString();
         Order = order;
         Shop = shop;
         Description = "Order cancelled";
         EventDate = DateTime.Now;
-
-        var orderStatus = dataRepository.GetOrderStatusByOrder(order);
-        orderStatus.Status = OrderStatusEnum.Cancelled;
     }
 }

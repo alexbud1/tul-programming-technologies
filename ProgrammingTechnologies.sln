@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForDataLayer", "TestForDataLayer\TestForDataLayer.csproj", "{230545AA-ABB7-41D2-B428-D830E8CFAB6B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{5E720935-969C-4E3A-8CB6-60E9D1A1A36A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "LogicLayer\LogicLayer.csproj", "{DDFF6D97-235B-442E-A781-F453123B4315}"
@@ -14,10 +12,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{230545AA-ABB7-41D2-B428-D830E8CFAB6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{230545AA-ABB7-41D2-B428-D830E8CFAB6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{230545AA-ABB7-41D2-B428-D830E8CFAB6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{230545AA-ABB7-41D2-B428-D830E8CFAB6B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E720935-969C-4E3A-8CB6-60E9D1A1A36A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E720935-969C-4E3A-8CB6-60E9D1A1A36A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E720935-969C-4E3A-8CB6-60E9D1A1A36A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,6 +28,5 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D77D3289-5E7F-4F95-B868-CE2F5D0D5191} = {41E85E3B-8D0D-408E-8369-69931E2F82DC}
 		{8A077F89-5324-4DF2-BE94-D3B99F39A365} = {41E85E3B-8D0D-408E-8369-69931E2F82DC}
-		{230545AA-ABB7-41D2-B428-D830E8CFAB6B} = {D77D3289-5E7F-4F95-B868-CE2F5D0D5191}
 	EndGlobalSection
 EndGlobal

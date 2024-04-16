@@ -11,6 +11,6 @@ public enum OrderStatusEnum
 public interface IOrderStatus
 {
     string OrderStatusId { get; set; }
-    IOrder OrderId { get; set; }
+    IOrder Order { get; set; }
     OrderStatusEnum Status { get; set; }
 }

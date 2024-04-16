@@ -10,15 +10,21 @@ public class DeliverOrder: IEvent
     public string Description { get; set; }
     public DateTime EventDate { get; set; }
 
-    public DeliverOrder(IOrder order, IShop shop, DataRepository dataRepository)
+    public static DeliverOrder DeliverOrderExtra(IOrder order, IShop shop, IDataRepository dataRepository)
+    {
+        var deliverOrder = new DeliverOrder(order, shop, dataRepository);
+        var orderStatus = dataRepository.GetOrderStatusByOrder(order);
+        orderStatus.Status = OrderStatusEnum.Completed;
+        dataRepository.UpdateOrderStatus(orderStatus);
+        return deliverOrder;
+    }
+
+    private DeliverOrder(IOrder order, IShop shop, IDataRepository dataRepository)
     {
         EventId = Guid.NewGuid().ToString();
         Order = order;
         Shop = shop;
         Description = "Order delivered";
         EventDate = DateTime.Now;
-
-        var orderStatus = dataRepository.GetOrderStatusByOrder(order);
-        orderStatus.Status = OrderStatusEnum.Completed;
     }
 }

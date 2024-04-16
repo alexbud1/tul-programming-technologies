@@ -36,4 +36,6 @@ public interface IDataRepository
 
     void AddOrderStatus(IOrderStatus orderStatus);
 
+    void UpdateOrderStatus(IOrderStatus orderStatus);
+
 }

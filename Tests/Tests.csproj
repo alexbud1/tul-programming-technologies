@@ -21,8 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DataLayerTests\" />
       <Folder Include="LogicLayerTests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
     </ItemGroup>
 
 </Project>

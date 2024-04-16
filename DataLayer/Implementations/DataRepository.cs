@@ -1,3 +1,4 @@
+using System.Drawing;
 using DataLayer.API;
 
 namespace DataLayer.Implementations;
@@ -23,7 +24,7 @@ public class DataRepository: IDataRepository
 
     public IOrderStatus GetOrderStatusByOrder(IOrder order)
     {
-        return _dataContext.OrderStatuses.FirstOrDefault(x => x.OrderId == order) ?? throw new Exception("Order status not found");
+        return _dataContext.OrderStatuses.FirstOrDefault(x => x.Order == order) ?? new OrderStatus(order);
     }
 
     public ISupplier GetSupplierById(string id)
@@ -69,6 +70,7 @@ public class DataRepository: IDataRepository
     public void AddEvent(IEvent @event)
     {
         _dataContext.Events.Add(@event);
+        System.Console.WriteLine("Events count: " + _dataContext.Events.Count);
     }
 
     public void AddOrder(IOrder order)
@@ -79,5 +81,14 @@ public class DataRepository: IDataRepository
     public void AddOrderStatus(IOrderStatus orderStatus)
     {
         _dataContext.OrderStatuses.Add(orderStatus);
+    }
+
+    public void UpdateOrderStatus(IOrderStatus orderStatus)
+    {
+        var orderStatusToUpdate = _dataContext.OrderStatuses.FirstOrDefault(x => x.Order == orderStatus.Order);
+        if (orderStatusToUpdate != null)
+        {
+            orderStatusToUpdate.Status = orderStatus.Status;
+        }
     }
 }

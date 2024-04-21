@@ -148,6 +148,21 @@ public class DataRepositoryTests
     }
 
     [TestMethod]
+    public void TestListOrders()
+    {
+        // Arrange
+        IShop shop = new Shop("Test Shop", "Test Address");
+        IDataRepository dataRepository = IDataRepository.Create(new DataContext());
+        IOrder order1 = new Order(new Product("Test Product 1", "Test Description 1", 10.0m, new Supplier("Test Supplier 1", "Test Address 1")), shop, dataRepository);
+        IOrder order2 = new Order(new Product("Test Product 2", "Test Description 2", 20.0m, new Supplier("Test Supplier 2", "Test Address 2")), shop, dataRepository);
+        dataRepository.AddOrder(order1);
+        dataRepository.AddOrder(order2);
+
+        // Assert
+        Assert.AreEqual(dataRepository.GetOrders().Count, 2);
+    }
+
+    [TestMethod]
     public void TestAddShop()
     {
         // Arrange

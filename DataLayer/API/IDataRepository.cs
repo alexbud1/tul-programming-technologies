@@ -12,6 +12,8 @@ public interface IDataRepository
     List<ISupplier> GetSuppliers();
     List<IShop> GetShops();
 
+    List <IOrder> GetOrders();
+
     ISupplier GetSupplierById(string id);
 
     IProduct GetProductById(string id);

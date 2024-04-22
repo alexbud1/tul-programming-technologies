@@ -12,7 +12,7 @@ public class CancelOrder: IEvent
 
     public static CancelOrder CancelOrderExtra(IOrder order, IShop shop, IDataRepository dataRepository)
     {
-        var cancelOrder =  new CancelOrder(order, shop, dataRepository);
+        var cancelOrder =  new CancelOrder(order, shop);
         var orderStatus = dataRepository.GetOrderStatusByOrder(order);
         orderStatus.Status = OrderStatusEnum.Cancelled;
         dataRepository.UpdateOrderStatus(orderStatus);
@@ -20,7 +20,7 @@ public class CancelOrder: IEvent
         return cancelOrder;
     }
 
-    private CancelOrder(IOrder order, IShop shop, IDataRepository dataRepository)
+    private CancelOrder(IOrder order, IShop shop)
     {
         EventId = Guid.NewGuid().ToString();
         Order = order;

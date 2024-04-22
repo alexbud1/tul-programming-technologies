@@ -27,6 +27,11 @@ public class DataRepository: IDataRepository
         return _dataContext.Orders;
     }
 
+    public List<IOrderStatus> GetOrdersStatuses()
+    {
+        return _dataContext.OrderStatuses;
+    }
+
     public IOrderStatus GetOrderStatusByOrder(IOrder order)
     {
         return _dataContext.OrderStatuses.FirstOrDefault(x => x.Order == order) ?? new OrderStatus(order);
@@ -78,9 +83,11 @@ public class DataRepository: IDataRepository
         System.Console.WriteLine("Events count: " + _dataContext.Events.Count);
     }
 
-    public void AddOrder(IOrder order)
+    public IOrder AddOrder(IProduct product, IShop shop)
     {
+        var order = new Order(product, shop, this);
         _dataContext.Orders.Add(order);
+        return order;
     }
 
     public void AddOrderStatus(IOrderStatus orderStatus)

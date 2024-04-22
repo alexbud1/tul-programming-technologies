@@ -69,11 +69,8 @@ public class DataRepositoryTests
         // Arrange
         IShop shop = new Shop("Test Shop", "Test Address");
         IDataRepository dataRepository = IDataRepository.Create(new DataContext());
-        IOrder order =
-            new Order(
-                new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address")),
-                shop, dataRepository);
-        dataRepository.AddOrder(order);
+        IProduct product = new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address"));
+        IOrder order = dataRepository.AddOrder(product, shop);
 
         // Act
         IOrder orderById = dataRepository.GetOrderById(order.OrderId);
@@ -89,11 +86,8 @@ public class DataRepositoryTests
         // Arrange
         IShop shop = new Shop("Test Shop", "Test Address");
         IDataRepository dataRepository = IDataRepository.Create(new DataContext());
-        IOrder order =
-            new Order(
-                new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address")),
-                shop, dataRepository);
-        dataRepository.AddOrder(order);
+        IProduct product = new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address"));
+        IOrder order = dataRepository.AddOrder(product, shop);
 
         // Act
         IOrderStatus orderStatus = dataRepository.GetOrderStatusByOrder(order);
@@ -153,10 +147,10 @@ public class DataRepositoryTests
         // Arrange
         IShop shop = new Shop("Test Shop", "Test Address");
         IDataRepository dataRepository = IDataRepository.Create(new DataContext());
-        IOrder order1 = new Order(new Product("Test Product 1", "Test Description 1", 10.0m, new Supplier("Test Supplier 1", "Test Address 1")), shop, dataRepository);
-        IOrder order2 = new Order(new Product("Test Product 2", "Test Description 2", 20.0m, new Supplier("Test Supplier 2", "Test Address 2")), shop, dataRepository);
-        dataRepository.AddOrder(order1);
-        dataRepository.AddOrder(order2);
+        IProduct product = new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address"));
+        dataRepository.AddOrder(product, shop);
+        dataRepository.AddOrder(product, shop);
+
 
         // Assert
         Assert.AreEqual(dataRepository.GetOrders().Count, 2);
@@ -210,10 +204,8 @@ public class DataRepositoryTests
         // Arrange
         IShop shop = new Shop("Test Shop", "Test Address");
         IDataRepository dataRepository = IDataRepository.Create(new DataContext());
-        IOrder order = new Order(new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address")), shop, dataRepository);
-
-        // Act
-        dataRepository.AddOrder(order);
+        IProduct product = new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address"));
+        IOrder order = dataRepository.AddOrder(product, shop);
 
         // Assert
         Assert.AreEqual(dataRepository.GetOrderById(order.OrderId), order);

@@ -14,6 +14,8 @@ public interface IDataRepository
 
     List <IOrder> GetOrders();
 
+    List <IOrderStatus> GetOrdersStatuses();
+
     ISupplier GetSupplierById(string id);
 
     IProduct GetProductById(string id);
@@ -34,7 +36,7 @@ public interface IDataRepository
 
     void AddEvent(IEvent @event);
 
-    void AddOrder(IOrder order);
+    IOrder AddOrder(IProduct product, IShop shop);
 
     void AddOrderStatus(IOrderStatus orderStatus);
 

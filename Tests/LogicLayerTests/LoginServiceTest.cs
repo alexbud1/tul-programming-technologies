@@ -64,7 +64,7 @@ namespace LogicLayer.UnitTests
         [TestMethod]
         public void Login_InvalidChoice_ThrowsException()
         {
-            Assert.ThrowsException<Exception>(() => _loginService.Login(100, "invalidId"));
+            Assert.ThrowsException<ArgumentException>(() => _loginService.Login(100, "invalidId"));
         }
 
         [TestMethod]

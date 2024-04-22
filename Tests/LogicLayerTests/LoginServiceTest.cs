@@ -16,6 +16,10 @@ namespace LogicLayer.UnitTests
         {
             _dataRepositoryMock = new Mock<IDataRepository>();
             _loginService = new LoginService(_dataRepositoryMock.Object);
+            
+            Assert.IsFalse(_loginService.AdminLogged());
+            Assert.IsFalse(_loginService.ShopLogged());
+            Assert.IsFalse(_loginService.SupplierLogged());
         }
 
         // Test cases for Login method
@@ -30,8 +34,13 @@ namespace LogicLayer.UnitTests
         [TestMethod]
         public void Login_ShopLogin_Success()
         {
+            var shop = new Mock<IShop>();
+            shop.Setup(x => x.ShopId).Returns("1");
+
+            _dataRepositoryMock.Setup(x => x.GetShopById(It.IsAny<string>())).Returns(shop.Object);
             
-            var result = _loginService.Login(ILoginService.LoginChoiceEnum.Shop, "shopId");
+            var result = _loginService.Login(ILoginService.LoginChoiceEnum.Shop, "1");
+            
             // Assert
             Assert.IsTrue(result);
             Assert.IsTrue(!_loginService.AdminLogged() && _loginService.ShopLogged() && !_loginService.SupplierLogged());
@@ -40,10 +49,13 @@ namespace LogicLayer.UnitTests
         [TestMethod]
         public void Login_SupplierLogin_Success()
         {
-            // Arrange
-            //_dataRepositoryMock.Setup(repo => repo.GetSupplierById(It.IsAny<string>())).Returns(new Supplier()); // Mocking the GetSupplierById method
+            var supplier = new Mock<ISupplier>();
+            supplier.Setup(x => x.SupplierId).Returns("1");
+
+            _dataRepositoryMock.Setup(x => x.GetSupplierById(It.IsAny<string>())).Returns(supplier.Object);
+            
             // Act
-            var result = _loginService.Login(ILoginService.LoginChoiceEnum.Supplier, "supplierId");
+            var result = _loginService.Login(ILoginService.LoginChoiceEnum.Supplier, "1");
             // Assert
             Assert.IsTrue(result);
             Assert.IsTrue(!_loginService.AdminLogged() && !_loginService.ShopLogged() && _loginService.SupplierLogged());
@@ -55,6 +67,28 @@ namespace LogicLayer.UnitTests
             Assert.ThrowsException<Exception>(() => _loginService.Login(100, "invalidId"));
         }
 
-        // More test cases for other methods can be added similarly...
+        [TestMethod]
+        public void Logout_Admin_Success()
+        {
+            Login_AdminLogin_Success();
+            _loginService.Logout();
+            Assert.IsFalse(_loginService.AdminLogged() || _loginService.ShopLogged() || _loginService.SupplierLogged());
+        }
+
+        [TestMethod]
+        public void Logout_Shop_Success()
+        {
+            Login_ShopLogin_Success();
+            _loginService.Logout();
+            Assert.IsFalse(_loginService.AdminLogged() || _loginService.ShopLogged() || _loginService.SupplierLogged());
+        }
+        
+        [TestMethod]
+        public void Logout_Supplier_Success()
+        {
+            Login_SupplierLogin_Success();
+            _loginService.Logout();
+            Assert.IsFalse(_loginService.AdminLogged() || _loginService.ShopLogged() || _loginService.SupplierLogged());
+        }
     }
 }

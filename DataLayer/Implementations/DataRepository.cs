@@ -22,6 +22,11 @@ public class DataRepository: IDataRepository
         return _dataContext.Shops;
     }
 
+    public List<IOrder> GetOrders()
+    {
+        return _dataContext.Orders;
+    }
+
     public IOrderStatus GetOrderStatusByOrder(IOrder order)
     {
         return _dataContext.OrderStatuses.FirstOrDefault(x => x.Order == order) ?? new OrderStatus(order);

@@ -21,7 +21,7 @@ public interface ILoginService
     void PlaceOrder(string orderId, string productId);
     void CancelOrder(string orderId);
     List<IOrderStatus> FindOrders();
-    IOrder FindOrderById(string id);
+    IOrderStatus FindOrderById(string id);
     List<IOrderStatus> FindOrdersByStatus(OrderStatusEnum status);
 
     #endregion Order

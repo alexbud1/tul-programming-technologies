@@ -12,14 +12,14 @@ public class DeliverOrder: IEvent
 
     public static DeliverOrder DeliverOrderExtra(IOrder order, IShop shop, IDataRepository dataRepository)
     {
-        var deliverOrder = new DeliverOrder(order, shop, dataRepository);
+        var deliverOrder = new DeliverOrder(order, shop);
         var orderStatus = dataRepository.GetOrderStatusByOrder(order);
         orderStatus.Status = OrderStatusEnum.Completed;
         dataRepository.UpdateOrderStatus(orderStatus);
         return deliverOrder;
     }
 
-    private DeliverOrder(IOrder order, IShop shop, IDataRepository dataRepository)
+    private DeliverOrder(IOrder order, IShop shop)
     {
         EventId = Guid.NewGuid().ToString();
         Order = order;

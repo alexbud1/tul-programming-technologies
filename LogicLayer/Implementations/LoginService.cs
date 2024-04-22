@@ -39,7 +39,7 @@ public class LoginService: ILoginService
                 break;
             case ILoginService.LoginChoiceEnum.Supplier:
                 _supplier = _dataRepository.GetSupplierById(id);
-                if (_shop == null) throw new NullReferenceException("Supplier not found");
+                if (_supplier == null) throw new NullReferenceException("Supplier not found");
                 _supplierLogged = true;
                 break;
             default:

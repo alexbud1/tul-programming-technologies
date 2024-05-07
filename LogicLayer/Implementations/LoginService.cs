@@ -124,7 +124,7 @@ public class LoginService: ILoginService
             var orders = _dataRepository.GetOrdersStatuses().FindAll(p => p.Order.Shop == _shop);
             return orders;
         }
-        else throw new Exception("Not logged to a supplier");
+        else throw new Exception("Not logged to a supplier or shop, or admin");
     }
 
     public IOrderStatus FindOrderById(string id)

@@ -2,7 +2,7 @@ using DataLayer.API;
 
 namespace DataLayer.Implementations.Events;
 
-public class ApproveOrder: IEvent
+internal class ApproveOrder: IEvent
 {
     public string EventId { get; set; }
     public IOrder Order { get; set; }

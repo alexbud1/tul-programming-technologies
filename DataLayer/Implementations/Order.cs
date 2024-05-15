@@ -2,7 +2,7 @@ using DataLayer.API;
 
 namespace DataLayer.Implementations;
 
-public class Order: IOrder
+internal class Order: IOrder
 {
     public string OrderId { get; set; }
     public IProduct Product { get; set; }

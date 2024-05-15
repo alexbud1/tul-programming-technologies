@@ -1,8 +1,8 @@
-using DataLayer.Implementations.Events;
-
-namespace Tests.DataGeneration;
 using DataLayer.API;
 using DataLayer.Implementations;
+using DataLayer.Implementations.Events;
+
+namespace DataLayer.DataGeneration;
 
 public class DefinedDataFiller : IDataFiller
 {

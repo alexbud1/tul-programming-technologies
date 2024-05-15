@@ -2,7 +2,7 @@ using DataLayer.API;
 
 namespace DataLayer.Implementations;
 
-public class Supplier : ISupplier
+internal class Supplier : ISupplier
 {
     public string SupplierId { get; set; }
     public string SupplierName { get; set; }

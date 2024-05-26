@@ -1,6 +1,6 @@
 using DataLayer.API;
 
-namespace Tests.DataGeneration;
+namespace DataLayer.DataGeneration;
 
 public interface IDataFiller
 {

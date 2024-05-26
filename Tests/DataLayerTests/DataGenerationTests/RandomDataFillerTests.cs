@@ -1,7 +1,8 @@
-namespace Tests.DataGenerationTests;
+using DataLayer.DataGeneration;
 using DataLayer.API;
 using DataLayer.Implementations;
-using Tests.DataGeneration;
+
+namespace LogicLayer.DataGenerationTests;
 
 [TestClass]
 public class RandomDataFillerTests

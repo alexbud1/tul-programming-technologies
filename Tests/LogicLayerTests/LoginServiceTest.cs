@@ -52,8 +52,8 @@ namespace LogicLayer.UnitTests
             var supplier = new Mock<ISupplier>();
             supplier.Setup(x => x.SupplierId).Returns("1");
 
-            _dataRepositoryMock.Setup(x => x.GetSupplierById(It.IsAny<string>())).Returns(supplier.Object);
             
+            _dataRepositoryMock.Setup(x => x.GetSupplierById(It.IsAny<string>())).Returns(supplier.Object);
             // Act
             var result = _loginService.Login(ILoginService.LoginChoiceEnum.Supplier, "1");
             // Assert
@@ -90,5 +90,32 @@ namespace LogicLayer.UnitTests
             _loginService.Logout();
             Assert.IsFalse(_loginService.AdminLogged() || _loginService.ShopLogged() || _loginService.SupplierLogged());
         }
+
+        [TestMethod]
+        public void SetStatus_Correct()
+        {
+            Login_SupplierLogin_Success();
+
+            var orderStatusMock = new Mock<IOrderStatus>();
+            orderStatusMock.Setup(x => x.OrderStatusId).Returns("1");
+            orderStatusMock.Setup(x => x.Status).Equals(OrderStatusEnum.Processing);
+
+            _dataRepositoryMock.Setup(x => x.GetOrdersStatuses()).Returns(new List<IOrderStatus> {orderStatusMock.Object});
+            _loginService.SetStatus("1", OrderStatusEnum.Cancelled);
+            
+            Assert.ThrowsException<NullReferenceException>(() => _loginService.SetStatus("2", OrderStatusEnum.Cancelled));
+            Assert.ThrowsException<NullReferenceException>(() => _loginService.SetStatus("2", "Pending"));
+        }
+
+        [TestMethod]
+        public void FindOrders()
+        {
+            var orderStatusMock = new Mock<IOrderStatus>();
+            _dataRepositoryMock.Setup(x => x.GetOrdersStatuses()).Returns(new List<IOrderStatus> {orderStatusMock.Object});
+
+            Assert.ThrowsException<Exception>(() => _loginService.FindOrders());
+        }
+        
+        
     }
 }

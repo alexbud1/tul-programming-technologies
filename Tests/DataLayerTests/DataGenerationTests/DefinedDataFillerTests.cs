@@ -1,8 +1,8 @@
-namespace Tests.DataGenerationTests;
-
+using DataLayer.DataGeneration;
 using DataLayer.API;
 using DataLayer.Implementations;
-using Tests.DataGeneration;
+
+namespace Tests.DataGenerationTests;
 
 [TestClass]
 public class DefinedDataFillerTests

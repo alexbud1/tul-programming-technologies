@@ -2,7 +2,7 @@ using DataLayer.API;
 
 namespace DataLayer.Implementations.Events;
 
-public class CancelOrder: IEvent
+internal class CancelOrder: IEvent
 {
     public string EventId { get; set; }
     public IOrder Order { get; set; }

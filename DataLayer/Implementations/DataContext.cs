@@ -2,7 +2,7 @@ using DataLayer.API;
 
 namespace DataLayer.Implementations;
 
-public class DataContext : IDataContext
+internal class DataContext : IDataContext
 {
     public List<ISupplier> Suppliers { get; set; }
     public List<IProduct> Products { get; set; }

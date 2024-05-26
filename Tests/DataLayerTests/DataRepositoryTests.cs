@@ -1,5 +1,5 @@
+﻿using DataLayer.API;
 using DataLayer.Implementations;
-using DataLayer.API;
 using DataLayer.Implementations.Events;
 
 namespace Tests.DataLayerTests;

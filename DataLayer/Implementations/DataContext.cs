@@ -4,20 +4,29 @@ namespace DataLayer.Implementations;
 
 internal class DataContext : IDataContext
 {
-    public List<ISupplier> Suppliers { get; set; }
-    public List<IProduct> Products { get; set; }
-    public List<IEvent> Events { get; set; }
-    public List<IOrderStatus> OrderStatuses { get; set; }
-    public List<IShop> Shops { get; set; }
-    public List<IOrder> Orders { get; set; }
+    private readonly string _connectionString;
 
-    public DataContext()
+    public DataContext(string? connectionString = null)
     {
-        Suppliers = new List<ISupplier>();
-        Products = new List<IProduct>();
-        Events = new List<IEvent>();
-        OrderStatuses = new List<IOrderStatus>();
-        Shops = new List<IShop>();
-        Orders = new List<IOrder>();
+        if (connectionString is null)
+        {
+            string _projectRootDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
+            string _DBRelativePath = @"DataLayer\Database\Database.mdf";
+            string _DBPath = Path.Combine(_projectRootDir, _DBRelativePath);
+            this._connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
+        }
+        else
+        {
+            this._connectionString = connectionString;
+        }
     }
+
+    #region Supplier CRUD
+
+    public async Task AddSupplierAsync(ISupplier supplier)
+    {
+        using DatabaseDataContext _context = new DatabaseDataContext(_connectionString);
+    }
+
+    #endregion
 }

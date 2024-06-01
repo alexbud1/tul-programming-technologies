@@ -16,13 +16,13 @@ public class ProductTests
         ISupplier supplier = new Supplier("Test Supplier", "Test Address");
 
         // Act
-        IProduct product = new Product(productName, productDescription, productPrice, supplier);
+        IProduct product = new Product(productName, productDescription, productPrice, supplier.SupplierId);
 
         // Assert
         Assert.AreEqual(productName, product.ProductName);
         Assert.AreEqual(productDescription, product.ProductDescription);
         Assert.AreEqual(productPrice, product.ProductPrice);
-        Assert.AreEqual(supplier, product.Supplier);
+        Assert.AreEqual(supplier.SupplierId, product.SupplierId);
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public class ProductTests
         ISupplier supplier = new Supplier("Test Supplier", "Test Address");
 
         // Act
-        IProduct product = new Product(productName, productDescription, productPrice, supplier);
+        IProduct product = new Product(productName, productDescription, productPrice, supplier.SupplierId);
 
         // Assert
         Assert.IsNotNull(product.ProductId);

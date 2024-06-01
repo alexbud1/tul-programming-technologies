@@ -233,7 +233,6 @@ _pkginfo.txt
 ClientBin/
 ~$*
 *~
-*.dbmdl
 *.dbproj.schemaview
 *.jfm
 *.pfx
@@ -261,10 +260,6 @@ UpgradeLog*.htm
 ServiceFabricBackup/
 *.rptproj.bak
 
-# SQL Server files
-*.mdf
-*.ldf
-*.ndf
 
 # Business Intelligence projects
 *.rdl.data

@@ -10,25 +10,25 @@ public class OrderTests
     public void TestOrderConstructor()
     {
         // Arrange
-        IProduct product = new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address"));
+        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
+        IProduct product = new Product("Test Product", "Test Description", 10.0m, supplier.SupplierId);
         IShop shop = new Shop("Test Shop", "Test Address");
-        IDataRepository dataRepository = IDataRepository.Create(new DataContext());
-        IOrder order = new Order(product, shop, dataRepository);
+        IOrder order = new Order(product.ProductId, shop.ShopId);
 
         // Act
         // Assert
-        Assert.AreEqual(product, order.Product);
-        Assert.AreEqual(shop, order.Shop);
+        Assert.AreEqual(product.ProductId, order.ProductId);
+        Assert.AreEqual(shop.ShopId, order.ShopId);
     }
 
     [TestMethod]
     public void TestOrderIdIsNotNull()
     {
         // Arrange
-        IProduct product = new Product("Test Product", "Test Description", 10.0m, new Supplier("Test Supplier", "Test Address"));
+        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
+        IProduct product = new Product("Test Product", "Test Description", 10.0m, supplier.SupplierId);
         IShop shop = new Shop("Test Shop", "Test Address");
-        IDataRepository dataRepository = IDataRepository.Create(new DataContext());
-        IOrder order = new Order(product, shop, dataRepository);
+        IOrder order = new Order(product.ProductId, shop.ShopId);
 
         // Act
         // Assert

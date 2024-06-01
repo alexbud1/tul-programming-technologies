@@ -4,42 +4,75 @@ namespace DataLayer.API;
 
 public interface IDataRepository
 {
-    static IDataRepository Create(IDataContext dataContext)
+    static IDataRepository CreateDatabase(IDataContext? dataContext = null)
     {
-        return new DataRepository(dataContext);
+        return new DataRepository(dataContext ?? new DataContext());
     }
 
-    List<ISupplier> GetSuppliers();
-    List<IShop> GetShops();
+    #region Supplier CRUD
 
-    List <IOrder> GetOrders();
+    Task AddSupplierAsync(string supplierId, string supplierName, string supplierAddress);
+    Task DeleteSupplierAsync(string supplierId);
+    Task UpdateSupplierAsync(string supplierId, string supplierName, string supplierAddress);
+    Task<ISupplier> GetSupplierAsync(string supplierId);
+    Task<Dictionary<string, ISupplier>> GetSuppliersAsync();
+    Task<int> GetSupplierCountAsync();
 
-    List <IOrderStatus> GetOrdersStatuses();
+    #endregion Supplier CRUD
 
-    ISupplier GetSupplierById(string id);
+    #region Product CRUD
 
-    IProduct GetProductById(string id);
+    Task AddProductAsync(string productId, string productName, string productDescription, decimal productPrice, string supplierId);
+    Task DeleteProductAsync(string productId);
+    Task UpdateProductAsync(string productId, string productName, string productDescription, decimal productPrice, string supplierId);
+    Task<IProduct> GetProductAsync(string productId);
+    Task<Dictionary<string, IProduct>> GetProductsAsync();
+    Task<int> GetProductCountAsync();
 
-    IEvent GetEventById(string id);
+    #endregion Product CRUD
 
-    IShop GetShopById(string id);
+    #region Event CRUD
 
-    IOrder GetOrderById(string id);
+    Task AddEventAsync(string eventId, string description);
+    Task DeleteEventAsync(string eventId);
+    Task UpdateEventAsync(string eventId, string description);
+    Task<IEvent> GetEventAsync(string eventId);
+    Task<Dictionary<string, IEvent>> GetEventsAsync();
+    Task<int> GetEventCountAsync();
 
-    IOrderStatus GetOrderStatusByOrder(IOrder order);
+    #endregion Event CRUD
 
-    void AddSupplier(ISupplier supplier);
+    #region OrderStatus CRUD
 
-    void AddShop(IShop shop);
+    Task AddOrderStatusAsync(string orderStatusId, OrderStatusEnum status, string orderId);
+    Task DeleteOrderStatusAsync(string orderStatusId);
+    Task UpdateOrderStatusAsync(string orderStatusId, OrderStatusEnum status, string orderId);
+    Task<IOrderStatus> GetOrderStatusAsync(string orderStatusId);
+    Task<Dictionary<string, IOrderStatus>> GetOrderStatusesAsync();
+    Task<int> GetOrderStatusCountAsync();
 
-    void AddProduct(IProduct product);
+    #endregion OrderStatus CRUD
 
-    void AddEvent(IEvent @event);
+    #region Shop CRUD
 
-    IOrder AddOrder(IProduct product, IShop shop);
+    Task AddShopAsync(string shopId, string shopName, string shopAddress);
+    Task DeleteShopAsync(string shopId);
+    Task UpdateShopAsync(string shopId, string shopName, string shopAddress);
+    Task<IShop> GetShopAsync(string shopId);
+    Task<Dictionary<string, IShop>> GetShopsAsync();
+    Task<int> GetShopCountAsync();
 
-    void AddOrderStatus(IOrderStatus orderStatus);
+    #endregion Shop CRUD
 
-    void UpdateOrderStatus(IOrderStatus orderStatus);
+    #region Order CRUD
+
+    Task AddOrderAsync(string orderId, string shopId, string orderStatusId);
+    Task DeleteOrderAsync(string orderId);
+    Task UpdateOrderAsync(string orderId, string shopId, string orderStatusId);
+    Task<IOrder> GetOrderAsync(string orderId);
+    Task<Dictionary<string, IOrder>> GetOrdersAsync();
+    Task<int> GetOrderCountAsync();
+
+    #endregion Order CRUD
 
 }

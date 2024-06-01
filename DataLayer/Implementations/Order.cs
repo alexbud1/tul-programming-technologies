@@ -5,16 +5,16 @@ namespace DataLayer.Implementations;
 internal class Order: IOrder
 {
     public string OrderId { get; set; }
-    public IProduct Product { get; set; }
-    public IShop Shop { get; set; }
+    public string ProductId { get; set; }
+    public string ShopId { get; set; }
 
-    public Order(IProduct product, IShop shop, IDataRepository dataRepository)
+    public Order(string productId, string shopId)
     {
         OrderId = Guid.NewGuid().ToString();
-        Product = product;
-        Shop = shop;
+        ProductId = productId;
+        ShopId = shopId;
 
-        IOrderStatus status = new OrderStatus(this);
-        dataRepository.AddOrderStatus(status);
+        // IOrderStatus status = new OrderStatus(this);
+        // dataRepository.AddOrderStatus(status);
     }
 }

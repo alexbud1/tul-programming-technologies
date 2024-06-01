@@ -6,5 +6,5 @@ public interface IProduct
     string ProductName { get; set; }
     string ProductDescription { get; set; }
     decimal ProductPrice { get; set; }
-    ISupplier Supplier { get; set; }
+    string SupplierId { get; set; }
 }

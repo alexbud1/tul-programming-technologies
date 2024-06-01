@@ -27,4 +27,10 @@
       <ProjectReference Include="..\..\DataLayer\DataLayer.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="TestDatabase.mdf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

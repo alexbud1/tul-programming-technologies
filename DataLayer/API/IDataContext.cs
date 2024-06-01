@@ -74,4 +74,20 @@ public interface IDataContext
     Task<int> GetOrderCountAsync();
 
     #endregion Order CRUD
+
+    #region Utils
+
+    Task<bool> CheckIfSupplierExists(string id);
+
+    Task<bool> CheckIfShopExists(string id);
+
+    Task<bool> CheckIfProductExists(string id);
+
+    Task<bool> CheckIfOrderStatusExists(string id);
+
+    Task<bool> CheckIfOrderExists(string id);
+
+    Task<bool> CheckIfEventExists(string id);
+
+    #endregion
 }

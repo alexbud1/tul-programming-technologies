@@ -8,14 +8,14 @@ internal class Product: IProduct
     public string ProductName { get; set; }
     public string ProductDescription { get; set; }
     public decimal ProductPrice { get; set; }
-    public ISupplier Supplier { get; set; }
+    public string SupplierId { get; set; }
 
-    public Product(string productName, string productDescription, decimal productPrice, ISupplier supplier)
+    public Product(string productName, string productDescription, decimal productPrice, string supplierId)
     {
         ProductId = Guid.NewGuid().ToString();
         ProductName = productName;
         ProductDescription = productDescription;
         ProductPrice = productPrice;
-        Supplier = supplier;
+        SupplierId = supplierId;
     }
 }

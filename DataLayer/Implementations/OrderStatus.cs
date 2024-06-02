@@ -8,9 +8,9 @@ internal class OrderStatus: IOrderStatus
     public string OrderId { get; set; }
     public OrderStatusEnum Status { get; set; }
 
-    public OrderStatus(string orderId)
+    public OrderStatus(string orderStatusId, string orderId)
     {
-        OrderStatusId = Guid.NewGuid().ToString();
+        OrderStatusId = orderStatusId;
         OrderId = orderId;
         Status = OrderStatusEnum.Pending; // Default status
     }

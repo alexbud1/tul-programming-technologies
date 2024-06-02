@@ -8,9 +8,9 @@ internal class Supplier : ISupplier
     public string SupplierName { get; set; }
     public string SupplierAddress { get; set; }
 
-    public Supplier(string supplierName, string supplierAddress)
+    public Supplier(string supplierId ,string supplierName, string supplierAddress)
     {
-        SupplierId = Guid.NewGuid().ToString();
+        SupplierId = supplierId;
         SupplierName = supplierName;
         SupplierAddress = supplierAddress;
     }

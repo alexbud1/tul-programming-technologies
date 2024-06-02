@@ -8,9 +8,9 @@ internal class Shop: IShop
     public string ShopName { get; set; }
     public string ShopAddress { get; set; }
 
-    public Shop(string shopName, string shopAddress)
+    public Shop(string shopId, string shopName, string shopAddress)
     {
-        ShopId = Guid.NewGuid().ToString();
+        ShopId = shopId;
         ShopName = shopName;
         ShopAddress = shopAddress;
     }

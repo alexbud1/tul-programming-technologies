@@ -10,9 +10,9 @@ internal class Event: IEvent
     public string Description { get; set; }
     public DateTime EventDate { get; set; }
 
-    public Event(string orderId, string shopId)
+    public Event(string eventId, string orderId, string shopId)
     {
-        EventId = Guid.NewGuid().ToString();
+        EventId = eventId;
         OrderId = orderId;
         ShopId = shopId;
         Description = "Order approved";

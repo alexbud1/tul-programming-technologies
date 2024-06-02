@@ -10,13 +10,13 @@ public class OrderStatusTests
     public void TestOrderStatusConstructor()
     {
         // Arrange
-        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
-        IProduct product = new Product("Test Product", "Test Description", 10.0m, supplier.SupplierId);
-        IShop shop = new Shop("Test Shop", "Test Address");
-        IOrder order = new Order(product.ProductId, shop.ShopId);
+        ISupplier supplier = new Supplier("1", "Test Supplier", "Test Address");
+        IProduct product = new Product("1", "Test Product", "Test Description", 10.0m, supplier.SupplierId);
+        IShop shop = new Shop("1", "Test name", "Test Address");
+        IOrder order = new Order("1", product.ProductId, shop.ShopId);
 
         // Act
-        IOrderStatus orderStatus = new OrderStatus(order.OrderId);
+        IOrderStatus orderStatus = new OrderStatus("1", order.OrderId);
 
         // Assert
         Assert.AreEqual(order.OrderId, orderStatus.OrderId);
@@ -27,13 +27,13 @@ public class OrderStatusTests
     public void TestOrderStatusIdIsNotNull()
     {
         // Arrange
-        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
-        IProduct product = new Product("Test Product", "Test Description", 10.0m, supplier.SupplierId);
-        IShop shop = new Shop("Test Shop", "Test Address");
-        IOrder order = new Order(product.ProductId, shop.ShopId);
+        ISupplier supplier = new Supplier("1", "Test Supplier", "Test Address");
+        IProduct product = new Product("1", "Test Product", "Test Description", 10.0m, supplier.SupplierId);
+        IShop shop = new Shop("1", "Test name", "Test Address");
+        IOrder order = new Order("1", product.ProductId, shop.ShopId);
 
         // Act
-        IOrderStatus orderStatus = new OrderStatus(order.OrderId);
+        IOrderStatus orderStatus = new OrderStatus("1", order.OrderId);
 
         // Assert
         Assert.IsNotNull(orderStatus.OrderStatusId);

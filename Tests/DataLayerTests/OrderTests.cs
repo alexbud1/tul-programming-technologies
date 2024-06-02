@@ -10,10 +10,10 @@ public class OrderTests
     public void TestOrderConstructor()
     {
         // Arrange
-        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
-        IProduct product = new Product("Test Product", "Test Description", 10.0m, supplier.SupplierId);
-        IShop shop = new Shop("Test Shop", "Test Address");
-        IOrder order = new Order(product.ProductId, shop.ShopId);
+        ISupplier supplier = new Supplier("1", "Test Supplier", "Test Address");
+        IProduct product = new Product("1", "Test Product", "Test Description", 10.0m, supplier.SupplierId);
+        IShop shop = new Shop("1", "Test name", "Test Address");
+        IOrder order = new Order("1", product.ProductId, shop.ShopId);
 
         // Act
         // Assert
@@ -25,10 +25,10 @@ public class OrderTests
     public void TestOrderIdIsNotNull()
     {
         // Arrange
-        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
-        IProduct product = new Product("Test Product", "Test Description", 10.0m, supplier.SupplierId);
-        IShop shop = new Shop("Test Shop", "Test Address");
-        IOrder order = new Order(product.ProductId, shop.ShopId);
+        ISupplier supplier = new Supplier("1", "Test Supplier", "Test Address");
+        IProduct product = new Product("1", "Test Product", "Test Description", 10.0m, supplier.SupplierId);
+        IShop shop = new Shop("1", "Test name", "Test Address");
+        IOrder order = new Order("1", product.ProductId, shop.ShopId);
 
         // Act
         // Assert

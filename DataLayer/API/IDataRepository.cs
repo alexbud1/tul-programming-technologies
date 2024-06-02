@@ -33,9 +33,9 @@ public interface IDataRepository
 
     #region Event CRUD
 
-    Task AddEventAsync(string eventId, string description);
+    Task AddEventAsync(string eventId, string orderId, string productId);
     Task DeleteEventAsync(string eventId);
-    Task UpdateEventAsync(string eventId, string description);
+    Task UpdateEventAsync(string eventId, string orderId, string productId);
     Task<IEvent> GetEventAsync(string eventId);
     Task<Dictionary<string, IEvent>> GetEventsAsync();
     Task<int> GetEventCountAsync();

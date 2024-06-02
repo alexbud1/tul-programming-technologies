@@ -8,9 +8,9 @@ internal class Order: IOrder
     public string ProductId { get; set; }
     public string ShopId { get; set; }
 
-    public Order(string productId, string shopId)
+    public Order(string orderId, string productId, string shopId)
     {
-        OrderId = Guid.NewGuid().ToString();
+        OrderId = orderId;
         ProductId = productId;
         ShopId = shopId;
 

@@ -10,9 +10,9 @@ internal class Product: IProduct
     public decimal ProductPrice { get; set; }
     public string SupplierId { get; set; }
 
-    public Product(string productName, string productDescription, decimal productPrice, string supplierId)
+    public Product(string productId , string productName, string productDescription, decimal productPrice, string supplierId)
     {
-        ProductId = Guid.NewGuid().ToString();
+        ProductId = productId;
         ProductName = productName;
         ProductDescription = productDescription;
         ProductPrice = productPrice;

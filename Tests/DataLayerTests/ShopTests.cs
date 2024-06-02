@@ -14,7 +14,7 @@ public class ShopTests
         string shopAddress = "Test Address";
 
         // Act
-        IShop shop = new Shop(shopName, shopAddress);
+        IShop shop = new Shop("1", shopName, shopAddress);
 
         // Assert
         Assert.AreEqual(shopName, shop.ShopName);
@@ -29,7 +29,7 @@ public class ShopTests
         string shopAddress = "Test Address";
 
         // Act
-        IShop shop = new Shop(shopName, shopAddress);
+        IShop shop = new Shop("1", shopName, shopAddress);
 
         // Assert
         Assert.IsNotNull(shop.ShopId);

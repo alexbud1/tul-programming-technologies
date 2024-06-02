@@ -15,7 +15,7 @@ internal class DataRepository: IDataRepository
 
     public async Task AddSupplierAsync(string supplierId, string supplierName, string supplierAddress)
     {
-        ISupplier supplier = new Supplier(supplierName, supplierAddress);
+        ISupplier supplier = new Supplier(supplierId, supplierName, supplierAddress);
 
         await _context.AddSupplierAsync(supplier);
     }
@@ -32,7 +32,7 @@ internal class DataRepository: IDataRepository
 
     public async Task UpdateSupplierAsync(string supplierId, string supplierName, string supplierAddress)
     {
-        ISupplier supplier = new Supplier(supplierName, supplierAddress);
+        ISupplier supplier = new Supplier(supplierId, supplierName, supplierAddress);
 
         if (!await CheckIfSupplierExists(supplierId))
             throw new Exception("This supplier does not exist");
@@ -64,7 +64,7 @@ internal class DataRepository: IDataRepository
 
     public async Task AddProductAsync(string productId, string productName, string productDescription, decimal productPrice, string supplierId)
     {
-        IProduct product = new Product(productName, productDescription, productPrice, supplierId);
+        IProduct product = new Product(productId, productName, productDescription, productPrice, supplierId);
 
         await _context.AddProductAsync(product);
     }
@@ -81,7 +81,7 @@ internal class DataRepository: IDataRepository
 
     public async Task UpdateProductAsync(string productId, string productName, string productDescription, decimal productPrice, string supplierId)
     {
-        IProduct product = new Product(productName, productDescription, productPrice, supplierId);
+        IProduct product = new Product(productId, productName, productDescription, productPrice, supplierId);
 
         if (!await CheckIfProductExists(productId))
             throw new Exception("This product does not exist");
@@ -111,9 +111,9 @@ internal class DataRepository: IDataRepository
 
     #region Event CRUD
 
-    public async Task AddEventAsync(string eventId, string shopId)
+    public async Task AddEventAsync(string eventId, string orderId, string shopId)
     {
-        IEvent @event = new Event(shopId, shopId);
+        IEvent @event = new Event(eventId, orderId, shopId);
 
         await _context.AddEventAsync(@event);
     }
@@ -128,9 +128,9 @@ internal class DataRepository: IDataRepository
         return @event;
     }
 
-    public async Task UpdateEventAsync(string eventId, string shopId)
+    public async Task UpdateEventAsync(string eventId, string orderId, string shopId)
     {
-        IEvent @event = new Event(shopId, shopId);
+        IEvent @event = new Event(eventId, orderId, shopId);
 
         if (!await CheckIfEventExists(eventId))
             throw new Exception("This event does not exist");
@@ -162,7 +162,7 @@ internal class DataRepository: IDataRepository
 
     public async Task AddOrderStatusAsync(string orderStatusId, OrderStatusEnum status, string orderId)
     {
-        IOrderStatus orderStatus = new OrderStatus(orderId);
+        IOrderStatus orderStatus = new OrderStatus(orderStatusId, orderId);
 
         await _context.AddOrderStatusAsync(orderStatus);
     }
@@ -179,7 +179,7 @@ internal class DataRepository: IDataRepository
 
     public async Task UpdateOrderStatusAsync(string orderStatusId, OrderStatusEnum status, string orderId)
     {
-        IOrderStatus orderStatus = new OrderStatus(orderId);
+        IOrderStatus orderStatus = new OrderStatus(orderStatusId, orderId);
 
         if (!await CheckIfOrderStatusExists(orderStatusId))
             throw new Exception("This order status does not exist");
@@ -211,7 +211,7 @@ internal class DataRepository: IDataRepository
 
     public async Task AddShopAsync(string shopId, string shopName, string shopAddress)
     {
-        IShop shop = new Shop(shopName, shopAddress);
+        IShop shop = new Shop(shopId, shopName, shopAddress);
 
         await _context.AddShopAsync(shop);
     }
@@ -228,7 +228,7 @@ internal class DataRepository: IDataRepository
 
     public async Task UpdateShopAsync(string shopId, string shopName, string shopAddress)
     {
-        IShop shop = new Shop(shopName, shopAddress);
+        IShop shop = new Shop(shopId, shopName, shopAddress);
 
         if (!await CheckIfShopExists(shopId))
             throw new Exception("This shop does not exist");
@@ -260,7 +260,7 @@ internal class DataRepository: IDataRepository
 
     public async Task AddOrderAsync(string orderId, string shopId, string orderStatusId)
     {
-        IOrder order = new Order(shopId, orderStatusId);
+        IOrder order = new Order(orderId, shopId, orderStatusId);
 
         await _context.AddOrderAsync(order);
     }
@@ -277,7 +277,7 @@ internal class DataRepository: IDataRepository
 
     public async Task UpdateOrderAsync(string orderId, string shopId, string orderStatusId)
     {
-        IOrder order = new Order(shopId, orderStatusId);
+        IOrder order = new Order(orderId, shopId, orderStatusId);
 
         if (!await CheckIfOrderExists(orderId))
             throw new Exception("This order does not exist");

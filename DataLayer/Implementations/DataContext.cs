@@ -51,7 +51,7 @@ internal class DataContext : IDataContext
                 return query.FirstOrDefault();
             });
 
-            return supplier is not null ? new Supplier(supplier.SupplierName, supplier.SupplierAddress) : null;
+            return supplier is not null ? new Supplier(supplierId, supplier.SupplierName, supplier.SupplierAddress) : null;
         }
     }
 
@@ -86,7 +86,7 @@ internal class DataContext : IDataContext
         {
             IQueryable<ISupplier> suppliersQuery = from u in context.Suppliers
                 select
-                    new Supplier(u.SupplierName, u.SupplierAddress) as ISupplier;
+                    new Supplier(u.SupplierId, u.SupplierName, u.SupplierAddress) as ISupplier;
 
             return await Task.Run(() => suppliersQuery.ToDictionary(k => k.SupplierId));
         }
@@ -133,7 +133,7 @@ internal class DataContext : IDataContext
                 return query.FirstOrDefault();
             });
 
-            return product is not null ? new Product(product.ProductName, product.ProductDescription, product.ProductPrice, product.SupplierId) : null;
+            return product is not null ? new Product(productId, product.ProductName, product.ProductDescription, product.ProductPrice, product.SupplierId) : null;
         }
     }
 
@@ -170,7 +170,7 @@ internal class DataContext : IDataContext
         {
             IQueryable<IProduct> productsQuery = from u in context.Products
                 select
-                    new Product(u.ProductName, u.ProductDescription, u.ProductPrice, u.SupplierId) as IProduct;
+                    new Product(u.ProductId, u.ProductName, u.ProductDescription, u.ProductPrice, u.SupplierId) as IProduct;
 
             return await Task.Run(() => productsQuery.ToDictionary(k => k.ProductId));
         }
@@ -217,7 +217,7 @@ internal class DataContext : IDataContext
                 return query.FirstOrDefault();
             });
 
-            return @event is not null ? new Event(@event.OrderId, @event.ShopId) : null;
+            return @event is not null ? new Event(eventId, @event.OrderId, @event.ShopId) : null;
         }
     }
 
@@ -254,7 +254,7 @@ internal class DataContext : IDataContext
         {
             IQueryable<IEvent> eventsQuery = from u in context.Events
                 select
-                    new Event(u.OrderId, u.ShopId) as IEvent;
+                    new Event(u.EventId, u.OrderId, u.ShopId) as IEvent;
 
             return await Task.Run(() => eventsQuery.ToDictionary(k => k.EventId));
         }
@@ -299,7 +299,7 @@ internal class DataContext : IDataContext
                 return query.FirstOrDefault();
             });
 
-            return orderStatus is not null ? new OrderStatus(orderStatus.OrderId) : null;
+            return orderStatus is not null ? new OrderStatus("1", orderStatus.OrderId) : null;
         }
     }
 
@@ -334,7 +334,7 @@ internal class DataContext : IDataContext
         {
             IQueryable<IOrderStatus> orderStatusesQuery = from u in context.OrderStatus
                 select
-                    new OrderStatus(u.OrderId) as IOrderStatus;
+                    new OrderStatus("1", u.OrderId) as IOrderStatus;
 
             return await Task.Run(() => orderStatusesQuery.ToDictionary(k => k.OrderStatusId));
         }
@@ -379,7 +379,7 @@ internal class DataContext : IDataContext
                 return query.FirstOrDefault();
             });
 
-            return shop is not null ? new Shop(shop.ShopName, shop.ShopAddress) : null;
+            return shop is not null ? new Shop(shopId, shop.ShopName, shop.ShopAddress) : null;
         }
     }
 
@@ -414,7 +414,7 @@ internal class DataContext : IDataContext
         {
             IQueryable<IShop> shopsQuery = from u in context.Shops
                 select
-                    new Shop(u.ShopName, u.ShopAddress) as IShop;
+                    new Shop(u.ShopId, u.ShopName, u.ShopAddress) as IShop;
 
             return await Task.Run(() => shopsQuery.ToDictionary(k => k.ShopId));
         }
@@ -459,7 +459,7 @@ internal class DataContext : IDataContext
                 return query.FirstOrDefault();
             });
 
-            return order is not null ? new Order(order.ProductId, order.ShopId) : null;
+            return order is not null ? new Order(orderId, order.ProductId, order.ShopId) : null;
         }
     }
 
@@ -494,7 +494,7 @@ internal class DataContext : IDataContext
         {
             IQueryable<IOrder> ordersQuery = from u in context.Orders
                 select
-                    new Order(u.ProductId, u.ShopId) as IOrder;
+                    new Order(u.OrderId, u.ProductId, u.ShopId) as IOrder;
 
             return await Task.Run(() => ordersQuery.ToDictionary(k => k.OrderId));
         }

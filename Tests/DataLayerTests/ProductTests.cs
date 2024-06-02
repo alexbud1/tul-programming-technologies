@@ -13,10 +13,10 @@ public class ProductTests
         string productName = "Test Product";
         string productDescription = "Test Description";
         decimal productPrice = 10.0m;
-        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
+        ISupplier supplier = new Supplier("1", "Test Supplier", "Test Address");
 
         // Act
-        IProduct product = new Product(productName, productDescription, productPrice, supplier.SupplierId);
+        IProduct product = new Product("1", productName, productDescription, productPrice, supplier.SupplierId);
 
         // Assert
         Assert.AreEqual(productName, product.ProductName);
@@ -32,10 +32,10 @@ public class ProductTests
         string productName = "Test Product";
         string productDescription = "Test Description";
         decimal productPrice = 10.0m;
-        ISupplier supplier = new Supplier("Test Supplier", "Test Address");
+        ISupplier supplier = new Supplier("1", "Test Supplier", "Test Address");
 
         // Act
-        IProduct product = new Product(productName, productDescription, productPrice, supplier.SupplierId);
+        IProduct product = new Product("1", productName, productDescription, productPrice, supplier.SupplierId);
 
         // Assert
         Assert.IsNotNull(product.ProductId);

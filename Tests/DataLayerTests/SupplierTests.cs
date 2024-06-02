@@ -14,7 +14,7 @@ public class SupplierTests
         string supplierAddress = "Test Address";
 
         // Act
-        ISupplier supplier = new Supplier(supplierName, supplierAddress);
+        ISupplier supplier = new Supplier("1", supplierName, supplierAddress);
 
         // Assert
         Assert.AreEqual(supplierName, supplier.SupplierName);
@@ -29,7 +29,7 @@ public class SupplierTests
         string supplierAddress = "Test Address";
 
         // Act
-        ISupplier supplier = new Supplier(supplierName, supplierAddress);
+        ISupplier supplier = new Supplier("1", supplierName, supplierAddress);
 
         // Assert
         Assert.IsNotNull(supplier.SupplierId);

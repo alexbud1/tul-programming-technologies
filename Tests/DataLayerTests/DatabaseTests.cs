@@ -193,6 +193,7 @@ public class DatabaseTests
         string eventId = "1";
         await _dataRepository.AddEventAsync(eventId, orderId, productId);
 
+
         IEvent @event = await _dataRepository.GetEventAsync(eventId);
 
         Assert.AreEqual(orderId, @event.OrderId);
@@ -202,6 +203,7 @@ public class DatabaseTests
         Assert.IsTrue(await _dataRepository.GetEventCountAsync() == 1);
 
         await _dataRepository.UpdateEventAsync(eventId, orderId, productId);
+
 
         IEvent updatedEvent = await _dataRepository.GetEventAsync(eventId);
 
@@ -246,6 +248,7 @@ public class DatabaseTests
         IOrderStatus updatedOrderStatus = await _dataRepository.GetOrderStatusAsync(orderStatusId);
 
         Assert.AreEqual(OrderStatusEnum.Pending, updatedOrderStatus.Status);
+
         Assert.AreEqual(orderId, updatedOrderStatus.OrderId);
         Assert.AreEqual(orderStatusId, updatedOrderStatus.OrderStatusId);
         Assert.AreNotEqual(updatedOrderStatus, orderStatus);

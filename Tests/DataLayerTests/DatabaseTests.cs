@@ -260,5 +260,4 @@ public class DatabaseTests
         Assert.IsTrue(await _dataRepository.GetOrderStatusCountAsync() == 0);
         Assert.IsNull(await _dataRepository.GetOrderStatusAsync(orderStatusId));
     }
-
 }

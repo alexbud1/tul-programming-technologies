@@ -3,7 +3,7 @@ using DataLayer.Database;
 
 namespace DataLayer.Implementations;
 
-internal class DataContext : IDataContext
+public class DataContext : IDataContext
 {
     private readonly string _connectionString;
 
@@ -11,7 +11,7 @@ internal class DataContext : IDataContext
     {
         if (connectionString is null)
         {
-            string _projectRootDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
+            string _projectRootDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.Parent?.FullName ?? string.Empty;
             string _DBRelativePath = @"DataLayer\Database\Database.mdf";
             string _DBPath = Path.Combine(_projectRootDir, _DBRelativePath);
             this._connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={_DBPath};Integrated Security = True; Connect Timeout = 30;";
@@ -26,17 +26,24 @@ internal class DataContext : IDataContext
 
     public async Task AddSupplierAsync(ISupplier supplier)
     {
-        using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
+        if (!await CheckIfSupplierExists(supplier.SupplierId))
         {
-            Database.Supplier entity = new Database.Supplier()
+            using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
-                SupplierId = supplier.SupplierId,
-                SupplierName = supplier.SupplierName,
-                SupplierAddress = supplier.SupplierAddress,
-            };
+                Database.Supplier entity = new Database.Supplier()
+                {
+                    SupplierId = supplier.SupplierId,
+                    SupplierName = supplier.SupplierName,
+                    SupplierAddress = supplier.SupplierAddress
+                };
 
-            context.Suppliers.InsertOnSubmit(entity);
-            await Task.Run(() => context.SubmitChanges());
+                context.Suppliers.InsertOnSubmit(entity);
+                await Task.Run(() => context.SubmitChanges());
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Supplier with ID {supplier.SupplierId} already exists.");
         }
     }
 
@@ -106,19 +113,26 @@ internal class DataContext : IDataContext
 
     public async Task AddProductAsync(IProduct product)
     {
-        using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
+        if (!await CheckIfSupplierExists(product.ProductId))
         {
-            Database.Product entity = new Database.Product()
+            using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
-                ProductId = product.ProductId,
-                ProductName = product.ProductName,
-                ProductDescription = product.ProductDescription,
-                ProductPrice = product.ProductPrice,
-                SupplierId = product.SupplierId
-            };
+                Database.Product entity = new Database.Product()
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    ProductDescription = product.ProductDescription,
+                    ProductPrice = product.ProductPrice,
+                    SupplierId = product.SupplierId
+                };
 
-            context.Products.InsertOnSubmit(entity);
-            await Task.Run(() => context.SubmitChanges());
+                context.Products.InsertOnSubmit(entity);
+                await Task.Run(() => context.SubmitChanges());
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Product with ID {product.ProductId} already exists.");
         }
     }
 
@@ -274,17 +288,24 @@ internal class DataContext : IDataContext
 
     public async Task AddOrderStatusAsync(IOrderStatus orderStatus)
     {
-        using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
+        if (!await CheckIfSupplierExists(orderStatus.OrderStatusId))
         {
-            Database.OrderStatus entity = new Database.OrderStatus()
+            using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
-                OrderStatusId = orderStatus.OrderStatusId,
-                OrderId = orderStatus.OrderId,
-                Status = (int)orderStatus.Status,
-            };
+                Database.OrderStatus entity = new Database.OrderStatus()
+                {
+                    OrderStatusId = orderStatus.OrderStatusId,
+                    OrderId = orderStatus.OrderId,
+                    Status = (int)orderStatus.Status,
+                };
 
-            context.OrderStatus.InsertOnSubmit(entity);
-            await Task.Run(() => context.SubmitChanges());
+                context.OrderStatus.InsertOnSubmit(entity);
+                await Task.Run(() => context.SubmitChanges());
+            }
+        }
+        else
+        {
+            Console.WriteLine($"OrderStatus with ID {orderStatus.OrderStatusId} already exists.");
         }
     }
 
@@ -354,17 +375,24 @@ internal class DataContext : IDataContext
 
     public async Task AddShopAsync(IShop shop)
     {
-        using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
+        if (!await CheckIfSupplierExists(shop.ShopId))
         {
-            Database.Shop entity = new Database.Shop()
+            using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
-                ShopId = shop.ShopId,
-                ShopName = shop.ShopName,
-                ShopAddress = shop.ShopAddress,
-            };
+                Database.Shop entity = new Database.Shop()
+                {
+                    ShopId = shop.ShopId,
+                    ShopName = shop.ShopName,
+                    ShopAddress = shop.ShopAddress,
+                };
 
-            context.Shops.InsertOnSubmit(entity);
-            await Task.Run(() => context.SubmitChanges());
+                context.Shops.InsertOnSubmit(entity);
+                await Task.Run(() => context.SubmitChanges());
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Shop with ID {shop.ShopId} already exists.");
         }
     }
 
@@ -434,17 +462,24 @@ internal class DataContext : IDataContext
 
     public async Task AddOrderAsync(IOrder order)
     {
-        using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
+        if (!await CheckIfOrderExists(order.OrderId))
         {
-            Database.Order entity = new Database.Order()
+            using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
-                OrderId = order.OrderId,
-                ProductId = order.ProductId,
-                ShopId = order.ShopId,
-            };
+                Database.Order entity = new Database.Order()
+                {
+                    OrderId = order.OrderId,
+                    ProductId = order.ProductId,
+                    ShopId = order.ShopId,
+                };
 
-            context.Orders.InsertOnSubmit(entity);
-            await Task.Run(() => context.SubmitChanges());
+                context.Orders.InsertOnSubmit(entity);
+                await Task.Run(() => context.SubmitChanges());
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Order with ID {order.OrderId} already exists.");
         }
     }
 

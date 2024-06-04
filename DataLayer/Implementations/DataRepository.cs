@@ -2,7 +2,7 @@ using DataLayer.API;
 
 namespace DataLayer.Implementations;
 
-internal class DataRepository: IDataRepository
+public class DataRepository: IDataRepository
 {
     private IDataContext _context;
 

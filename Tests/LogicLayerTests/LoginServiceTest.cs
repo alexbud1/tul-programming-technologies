@@ -8,8 +8,8 @@ namespace LogicLayer.UnitTests
     [TestClass]
     public class LoginServiceTests
     {
-        private Mock<IDataRepository> _dataRepositoryMock;
-        private ILoginService _loginService;
+        private Mock<IDataRepository>? _dataRepositoryMock;
+        private ILoginService? _loginService;
 
         [TestInitialize]
         public void Initialize()
@@ -37,7 +37,7 @@ namespace LogicLayer.UnitTests
             var shop = new Mock<IShop>();
             shop.Setup(x => x.ShopId).Returns("1");
 
-            _dataRepositoryMock.Setup(x => x.GetShopById(It.IsAny<string>())).Returns(shop.Object);
+            _dataRepositoryMock.Setup(x => x.GetShopAsync(It.IsAny<string>())).Returns(Task.FromResult(shop.Object));
             
             var result = _loginService.Login(ILoginService.LoginChoiceEnum.Shop, "1");
             
@@ -53,7 +53,7 @@ namespace LogicLayer.UnitTests
             supplier.Setup(x => x.SupplierId).Returns("1");
 
             
-            _dataRepositoryMock.Setup(x => x.GetSupplierById(It.IsAny<string>())).Returns(supplier.Object);
+            _dataRepositoryMock.Setup(x => x.GetSupplierAsync(It.IsAny<string>())).Returns((Task<ISupplier>)supplier.Object);
             // Act
             var result = _loginService.Login(ILoginService.LoginChoiceEnum.Supplier, "1");
             // Assert
@@ -100,7 +100,11 @@ namespace LogicLayer.UnitTests
             orderStatusMock.Setup(x => x.OrderStatusId).Returns("1");
             orderStatusMock.Setup(x => x.Status).Equals(OrderStatusEnum.Processing);
 
-            _dataRepositoryMock.Setup(x => x.GetOrdersStatuses()).Returns(new List<IOrderStatus> {orderStatusMock.Object});
+            Moq.Language.Flow.IReturnsResult<IDataRepository> returnsResult 
+                = _dataRepositoryMock.Setup(x => x.GetOrderStatusesAsync()).
+                Returns(Task.FromResult(new Dictionary<string, IOrderStatus> {
+                    { "1", orderStatusMock.Object }
+                }));
             _loginService.SetStatus("1", OrderStatusEnum.Cancelled);
             
             Assert.ThrowsException<NullReferenceException>(() => _loginService.SetStatus("2", OrderStatusEnum.Cancelled));
@@ -111,7 +115,11 @@ namespace LogicLayer.UnitTests
         public void FindOrders()
         {
             var orderStatusMock = new Mock<IOrderStatus>();
-            _dataRepositoryMock.Setup(x => x.GetOrdersStatuses()).Returns(new List<IOrderStatus> {orderStatusMock.Object});
+            var returnsResult = _dataRepositoryMock
+                .Setup(x => x.GetOrderStatusesAsync())
+                .Returns(Task.FromResult(new Dictionary<string, IOrderStatus> {
+                    { "1", orderStatusMock.Object } 
+                }));
 
             Assert.ThrowsException<Exception>(() => _loginService.FindOrders());
         }

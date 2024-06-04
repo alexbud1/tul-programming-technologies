@@ -1,0 +1,9 @@
+﻿<Application x:Class="Application"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:View" xmlns:wpf="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+             StartupUri="LoginPanel.xaml">
+    <Application.Resources>
+        
+    </Application.Resources>
+</Application>

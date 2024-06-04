@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>View</RootNamespace>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>View</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+    <ProjectReference Include="..\LogicLayer\LogicLayer.csproj" />
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,5 +1,6 @@
 using DataLayer.API;
 using LogicLayer.API;
+using System.Collections.Immutable;
 
 namespace LogicLayer.Implementations;
 
@@ -33,12 +34,12 @@ public class LoginService: ILoginService
                 _adminLogged = true;
                 break;
             case ILoginService.LoginChoiceEnum.Shop:
-                _shop = _dataRepository.GetShopById(id);
+                _shop = (IShop?)_dataRepository.GetShopAsync(id);
                 if (_shop == null) throw new NullReferenceException("Shop not found");
                 _shopLogged = true;
                 break;
             case ILoginService.LoginChoiceEnum.Supplier:
-                _supplier = _dataRepository.GetSupplierById(id);
+                _supplier = (ISupplier?)_dataRepository.GetSupplierAsync(id);
                 if (_supplier == null) throw new NullReferenceException("Supplier not found");
                 _supplierLogged = true;
                 break;
@@ -88,12 +89,16 @@ public class LoginService: ILoginService
     {
         if (_shopLogged)
         {
-            var product = _dataRepository.GetProductById(productId);
+            var product = (IProduct?)_dataRepository.GetProductAsync(productId);
 
             if (product == null) throw new NullReferenceException("No product found with id: " + productId);
 
+            string orderStatusId = Guid.NewGuid().ToString();
+            while(orderStatusId == _dataRepository.GetOrderStatusAsync(orderStatusId).Result.OrderStatusId)
+                orderStatusId = Guid.NewGuid().ToString();
+            
             // Create order and associate with product
-            _dataRepository.AddOrder(product, _shop);
+            _dataRepository.AddOrderAsync(product.ProductId, _shop.ShopId, orderStatusId);
         }
         else throw new Exception("Not logged to a shop");
     }
@@ -117,33 +122,56 @@ public class LoginService: ILoginService
     {
         if (_supplierLogged)
         {
-            var orders = _dataRepository.GetOrdersStatuses().FindAll(p => p.Order.Product.Supplier == _supplier);
-            return orders;
+            var orders = _dataRepository.GetOrderStatusesAsync().Result.
+                Where(p => _dataRepository.GetProductAsync(
+                    _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
+                    ProductId).Result.
+                    SupplierId == _supplier.SupplierId);
+            return orders.Select(p => p.Value).ToList();
         } else if (_shopLogged)
         {
-            var orders = _dataRepository.GetOrdersStatuses().FindAll(p => p.Order.Shop == _shop);
-            return orders;
+            var orders = _dataRepository.GetOrderStatusesAsync().Result.
+                Where(p => _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
+                ShopId == _shop.ShopId);
+                
+            return orders.Select(p => p.Value).ToList();
         }
         else throw new Exception("Not logged to a supplier or shop, or admin");
+    }
+
+    private List<IOrderStatus> FindOrderStatusesForShop(string shopId) { 
+        var orders = _dataRepository.GetOrderStatusesAsync().Result.
+            Where(p => _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
+            ShopId == shopId);
+        return orders.Select(p => p.Value).ToList();
+    }
+
+    private List<IOrderStatus> FindOrderStatusesForSupplier(string supplierId) { 
+        var orders = _dataRepository.GetOrderStatusesAsync().Result.
+            Where(p => _dataRepository.GetProductAsync(
+                _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
+                ProductId).Result.
+                SupplierId == supplierId);
+        return orders.Select(p => p.Value).ToList();
     }
 
     public IOrderStatus FindOrderById(string id)
     {
         if (_supplierLogged)
         {
-            var order = _dataRepository.GetOrdersStatuses().Find(p => p.Order.OrderId == id
-                                                                      && _supplier == p.Order.Product.Supplier);
+            var order = FindOrderStatusesForSupplier(_supplier.SupplierId).Find(p => p.OrderId == id);
             if (order == null) throw new NullReferenceException("Order not found.");
             return order;
         } else if (_shopLogged)
         {
-            var order = _dataRepository.GetOrdersStatuses().Find(p => p.Order.OrderId == id && p.Order.Shop == _shop);
+            var order = FindOrderStatusesForShop(_shop.ShopId).Find(p => p.OrderId == id);
             if (order == null) throw new NullReferenceException("Order not found.");
             return order;
         }
         else if (_adminLogged)
         {
-            var order = _dataRepository.GetOrdersStatuses().Find(p => p.Order.OrderId == id);
+            var order = _dataRepository.GetOrderStatusesAsync().Result.
+                Values.ToList().Find(p => p.OrderId == id);
             if (order == null) throw new NullReferenceException("Order not found.");
             return order;
         }
@@ -155,7 +183,7 @@ public class LoginService: ILoginService
     {
         if (_supplierLogged)
         {
-            var orders = _dataRepository.GetOrdersStatuses().FindAll(p => p.Status == status);
+            var orders = FindOrderStatusesForSupplier(_supplier.SupplierId).FindAll(p => p.Status == status);
             if (orders == null) throw new NullReferenceException("No order found");
             return orders;
         }
@@ -169,69 +197,40 @@ public class LoginService: ILoginService
     public void SetStatus(string orderStatusId, OrderStatusEnum status)
     {
         // Set order status using the provided order and status
-        var newOrderStatus = _dataRepository.GetOrdersStatuses().Find(p => p.OrderStatusId == orderStatusId);
-        if (newOrderStatus != null) newOrderStatus.Status = status;
+        var orderId = _dataRepository.GetOrderStatusAsync(orderStatusId).Result.OrderId;
+        if (_dataRepository.GetOrderStatusAsync(orderStatusId) != null) _dataRepository.UpdateOrderStatusAsync(orderStatusId, status, orderId);
         else throw new NullReferenceException("No order found");
     }
 
     public void SetStatus(string orderStatusId, string status)
     {
         // Set order status using order ID and status string
-        var order = _dataRepository.GetOrdersStatuses().Find(p => p.OrderStatusId == orderStatusId);
-        if (order != null)
-        {
-            order.Status = Enum.Parse<OrderStatusEnum>(status);
-        }
-        else throw new NullReferenceException("No order found");
+        SetStatus(orderStatusId, (OrderStatusEnum)Enum.Parse(typeof(OrderStatusEnum), status));
     }
 
     public void SetPending(string orderStatusId)
     {
         // Set order status to pending
-        var orderStatus = FindOrderById(orderStatusId);
-        if (orderStatus != null)
-        {
-            orderStatus.Status = OrderStatusEnum.Pending;
-            _dataRepository.UpdateOrderStatus(orderStatus);
-        }
-        else throw new NullReferenceException("Cannot find the order.");
+        SetStatus(orderStatusId, OrderStatusEnum.Pending);
     }
 
     public void SetProcessing(string orderStatusId)
     {
         // Set order status to processing
-        var orderStatus = FindOrderById(orderStatusId);
-        if (orderStatus != null)
-        {
-            orderStatus.Status = OrderStatusEnum.Processing;
-            _dataRepository.UpdateOrderStatus(orderStatus);
-        }
-        else throw new NullReferenceException("Cannot find the order.");
+        SetStatus(orderStatusId, OrderStatusEnum.Processing);
     }
 
     public void SetCompleted(string orderStatusId)
     {
         // Set order status to completed
-        var orderStatus = FindOrderById(orderStatusId);
-        if (orderStatus != null)
-        {
-            orderStatus.Status = OrderStatusEnum.Completed;
-            _dataRepository.UpdateOrderStatus(orderStatus);
-        }
-        else throw new NullReferenceException("Cannot find the order");
+        SetStatus(orderStatusId, OrderStatusEnum.Completed);
 
     }
 
     public void SetCancelled(string orderStatusId)
     {
         // Set order status to cancelled
-        var orderStatus = FindOrderById(orderStatusId);
-        if (orderStatus != null)
-        {
-            orderStatus.Status = OrderStatusEnum.Cancelled;
-            _dataRepository.UpdateOrderStatus(orderStatus);
-        }
-        else throw new NullReferenceException("Cannot find the order");
+        SetStatus(orderStatusId, OrderStatusEnum.Cancelled);
     }
 
     #endregion Status setting

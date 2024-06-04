@@ -1,0 +1,35 @@
+﻿<Window x:Class="LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login" Height="450" Width="800">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="1" 
+                   TextWrapping="Wrap" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="58" FontWeight="Bold" FontSize="22" TextAlignment="Center" Text="Login" IsEnabled="False" Margin="0,26,0,26"/>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="AdminLogin" Content="Admin" 
+                HorizontalAlignment="Center" Height="58" VerticalAlignment="Center" Width="160"
+                Command="{Binding AdminLoginCommand}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="ShopLogin"
+                 VerticalContentAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" Height="58" VerticalAlignment="Center" Width="160"
+                 Text="{Binding ShopId, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Row="2" Grid.Column="2" x:Name="ShopLoginButton" Content="Shop Login" 
+                HorizontalAlignment="Center" Height="58" VerticalAlignment="Center" Width="160"
+                Command="{Binding ShopLoginCommand}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="SupplierLogin"
+                 VerticalContentAlignment="Center" TextAlignment="Center" HorizontalAlignment="Center" Height="58" VerticalAlignment="Center" Width="160"
+                 Text="{Binding SupplierId, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Row="3" Grid.Column="2" x:Name="SupplierLoginButton" Content="Supplier Login" 
+                HorizontalAlignment="Center" Height="58" VerticalAlignment="Center" Width="160"
+                Command="{Binding SupplierLoginCommand}"/>
+    </Grid>
+</Window>

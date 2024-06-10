@@ -16,7 +16,7 @@ namespace ViewModel
         public SupplierViewModel(NavigationService navigationService)
         {
             _navigationService = navigationService;
-            NavigateBackCommand = new RelayCommand(_ => _navigationService.NavigateTo(new LoginViewModel(_navigationService)));
+            NavigateBackCommand = new RelayCommand(_ => _navigationService.NavigateTo<LoginViewModel>());
         }
     }
 }

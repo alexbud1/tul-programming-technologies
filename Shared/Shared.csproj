@@ -2,15 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <RootNamespace>View</RootNamespace>
-    <UseWPF>true</UseWPF>
-    <OutputType>WinExe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
     <ProjectReference Include="..\LogicLayer\LogicLayer.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+	<ProjectReference Include="..\DataLayer\DataLayer.csproj" />
 	<ProjectReference Include="..\ViewModel\ViewModel.csproj" />
   </ItemGroup>
 

@@ -10,11 +10,12 @@ namespace ViewModel
     {
         private NavigationService _navigationService;
 
+        public RelayCommand NavigateBackCommand { get; }
+
         public AdminViewModel(NavigationService navigationService)
         {
             _navigationService = navigationService;
-
-
+            NavigateBackCommand = new RelayCommand(_ => _navigationService.NavigateTo<LoginViewModel>());
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ViewModel
     {
         private readonly IDataRepository _dataRepository;
         private readonly ILoginService _loginService;
-        private readonly NavigationService _navigationService;
+        private readonly NavigationService NavigationService;
 
         public RelayCommand AdminLoginCommand { get; }
         public RelayCommand ShopLoginCommand { get; }
@@ -41,9 +41,9 @@ namespace ViewModel
 
         public LoginViewModel(NavigationService navigationService)
         {
-            _navigationService = navigationService;
-            _dataRepository = _navigationService.DataLayer;
-            _loginService = _navigationService.LogicLayer;
+            NavigationService = navigationService;
+            _dataRepository = NavigationService.DataLayer;
+            _loginService = NavigationService.LogicLayer;
 
             AdminLoginCommand = new RelayCommand(ExecuteAdminLogin, CanExecuteAdminLogin);
             ShopLoginCommand = new RelayCommand(ExecuteShopLogin, CanExecuteShopLogin);
@@ -60,29 +60,30 @@ namespace ViewModel
         private void ExecuteAdminLogin(object parameter)
         {
             _loginService.Login(ILoginService.LoginChoiceEnum.Admin, "");
-            _navigationService.NavigateTo(new AdminViewModel(_navigationService));
+            NavigationService.NavigateTo<AdminViewModel>();
         }
+
+        private void ExecuteShopLogin(object parameter)
+        {
+            _loginService.Login(ILoginService.LoginChoiceEnum.Shop, ShopId);
+            NavigationService.NavigateTo<ShopViewModel>();
+        }
+
+        private void ExecuteSupplierLogin(object parameter)
+        {
+            _loginService.Login(ILoginService.LoginChoiceEnum.Supplier, SupplierId);
+            NavigationService.NavigateTo<SupplierViewModel>();
+        }
+
 
         private bool CanExecuteAdminLogin(object parameter)
         {
             return true; // Define logic to determine if command can execute
         }
 
-        private void ExecuteShopLogin(object parameter)
-        {
-            _loginService.Login(ILoginService.LoginChoiceEnum.Shop, ShopId);
-            _navigationService.NavigateTo(new ShopViewModel(_navigationService));
-        }
-
         private bool CanExecuteShopLogin(object parameter)
         {
             return !string.IsNullOrWhiteSpace(ShopId); // Enable button only if ShopId is not empty
-        }
-
-        private void ExecuteSupplierLogin(object parameter)
-        {
-            _loginService.Login(ILoginService.LoginChoiceEnum.Supplier, SupplierId);
-            _navigationService.NavigateTo(new SupplierViewModel(_navigationService));
         }
 
         private bool CanExecuteSupplierLogin(object parameter)

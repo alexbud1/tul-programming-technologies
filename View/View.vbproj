@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>View</RootNamespace>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>View</RootNamespace>
     <UseWPF>true</UseWPF>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    internal class AdminViewModel
+    public class AdminViewModel
     {
         private NavigationService _navigationService;
 

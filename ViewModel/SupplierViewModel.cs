@@ -7,7 +7,7 @@ using ViewModels;
 
 namespace ViewModel
 {
-    internal class SupplierViewModel
+    public class SupplierViewModel
     {
         private readonly NavigationService _navigationService;
 

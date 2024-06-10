@@ -20,7 +20,6 @@ Namespace View
             'Dim _navigationService As NavigationService = New NavigationService(_dataRepository, _loginService)
             'Dim loginViewModel As LoginViewModel = New LoginViewModel(_navigationService)
 
-            MainViewModel.Main()
         End Sub
     End Class
 End Namespace

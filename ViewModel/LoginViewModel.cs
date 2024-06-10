@@ -3,9 +3,8 @@ using LogicLayer.API;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using ViewModel;
 
-namespace ViewModels
+namespace ViewModel
 {
     public class LoginViewModel : INotifyPropertyChanged
     {

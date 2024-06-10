@@ -34,13 +34,13 @@ public class LoginService: ILoginService
                 _adminLogged = true;
                 break;
             case ILoginService.LoginChoiceEnum.Shop:
-                _shop = (IShop?)_dataRepository.GetShopAsync(id);
-                if (_shop == null) throw new NullReferenceException("Shop not found");
+                _shop = _dataRepository.GetShopAsync(id).Result;
+                if (_shop == null) throw new NullReferenceException("Shop not found"+ _shop.ShopId);
                 _shopLogged = true;
                 break;
             case ILoginService.LoginChoiceEnum.Supplier:
-                _supplier = (ISupplier?)_dataRepository.GetSupplierAsync(id);
-                if (_supplier == null) throw new NullReferenceException("Supplier not found");
+                _supplier = _dataRepository.GetSupplierAsync(id).Result;
+                if (_supplier == null) throw new NullReferenceException("Supplier not found" + _supplier.SupplierId);
                 _supplierLogged = true;
                 break;
             default:
@@ -89,7 +89,7 @@ public class LoginService: ILoginService
     {
         if (_shopLogged)
         {
-            var product = (IProduct?)_dataRepository.GetProductAsync(productId);
+            var product = _dataRepository.GetProductAsync(productId).Result;
 
             if (product == null) throw new NullReferenceException("No product found with id: " + productId);
 
@@ -124,8 +124,9 @@ public class LoginService: ILoginService
         {
             var orders = _dataRepository.GetOrderStatusesAsync().Result.
                 Where(p => _dataRepository.GetProductAsync(
-                    _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
-                    ProductId).Result.
+                        _dataRepository.GetOrderAsync(p.Value.OrderId)
+                        .Result.ProductId
+                    ).Result.
                     SupplierId == _supplier.SupplierId);
             return orders.Select(p => p.Value).ToList();
         } else if (_shopLogged)
@@ -159,12 +160,12 @@ public class LoginService: ILoginService
     {
         if (_supplierLogged)
         {
-            var order = FindOrderStatusesForSupplier(_supplier.SupplierId).Find(p => p.OrderId == id);
+            var order = FindOrderStatusesForSupplier(_supplier?.SupplierId).Find(p => p.OrderId == id);
             if (order == null) throw new NullReferenceException("Order not found.");
             return order;
         } else if (_shopLogged)
         {
-            var order = FindOrderStatusesForShop(_shop.ShopId).Find(p => p.OrderId == id);
+            var order = FindOrderStatusesForShop(_shop?.ShopId).Find(p => p.OrderId == id);
             if (order == null) throw new NullReferenceException("Order not found.");
             return order;
         }
@@ -197,8 +198,8 @@ public class LoginService: ILoginService
     public void SetStatus(string orderStatusId, OrderStatusEnum status)
     {
         // Set order status using the provided order and status
-        var orderId = _dataRepository.GetOrderStatusAsync(orderStatusId).Result.OrderId;
-        if (_dataRepository.GetOrderStatusAsync(orderStatusId) != null) _dataRepository.UpdateOrderStatusAsync(orderStatusId, status, orderId);
+        var order = _dataRepository.GetOrderStatusAsync(orderStatusId).Result;
+        if (order != null) _dataRepository.UpdateOrderStatusAsync(orderStatusId, status, order.OrderId);
         else throw new NullReferenceException("No order found");
     }
 

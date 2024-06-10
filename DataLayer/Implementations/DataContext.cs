@@ -43,7 +43,7 @@ public class DataContext : IDataContext
         }
         else
         {
-            Console.WriteLine($"Supplier with ID {supplier.SupplierId} already exists.");
+            throw new Exception("Supplier already exists in database");
         }
     }
 
@@ -113,7 +113,7 @@ public class DataContext : IDataContext
 
     public async Task AddProductAsync(IProduct product)
     {
-        if (!await CheckIfSupplierExists(product.ProductId))
+        if (!await CheckIfProductExists(product.ProductId))
         {
             using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
@@ -132,7 +132,7 @@ public class DataContext : IDataContext
         }
         else
         {
-            Console.WriteLine($"Product with ID {product.ProductId} already exists.");
+            throw new Exception("Product already exists in database");
         }
     }
 
@@ -288,7 +288,7 @@ public class DataContext : IDataContext
 
     public async Task AddOrderStatusAsync(IOrderStatus orderStatus)
     {
-        if (!await CheckIfSupplierExists(orderStatus.OrderStatusId))
+        if (!await CheckIfOrderStatusExists(orderStatus.OrderStatusId))
         {
             using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
@@ -305,7 +305,7 @@ public class DataContext : IDataContext
         }
         else
         {
-            Console.WriteLine($"OrderStatus with ID {orderStatus.OrderStatusId} already exists.");
+            throw new Exception("OrderStatus already exists in database");
         }
     }
 
@@ -375,7 +375,7 @@ public class DataContext : IDataContext
 
     public async Task AddShopAsync(IShop shop)
     {
-        if (!await CheckIfSupplierExists(shop.ShopId))
+        if (!await CheckIfShopExists(shop.ShopId))
         {
             using (DatabaseDataContext context = new DatabaseDataContext(_connectionString))
             {
@@ -392,7 +392,7 @@ public class DataContext : IDataContext
         }
         else
         {
-            Console.WriteLine($"Shop with ID {shop.ShopId} already exists.");
+            throw new Exception("Shop already exists in database");
         }
     }
 
@@ -479,7 +479,7 @@ public class DataContext : IDataContext
         }
         else
         {
-            Console.WriteLine($"Order with ID {order.OrderId} already exists.");
+            throw new Exception("Order already exists in database");
         }
     }
 

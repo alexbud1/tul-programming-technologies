@@ -6,9 +6,9 @@ namespace Tests.DataLayerTests;
 [DeploymentItem("TestDatabase.mdf")]
 public class DatabaseTests
 {
-    private static string connectionString;
+    private static string? connectionString;
 
-    private IDataRepository _dataRepository;
+    private IDataRepository? _dataRepository;
 
     [ClassInitialize]
     public static void ClassInitializeMethod(TestContext context)

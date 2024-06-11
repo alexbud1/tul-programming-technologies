@@ -30,6 +30,8 @@ public class DatabaseTests
         _dataRepository = IDataRepository.CreateDatabase(dataContext);
     }
 
+
+
     [TestMethod]
     public void TestDatabaseConnection()
     {
@@ -108,6 +110,8 @@ public class DatabaseTests
         await _dataRepository.DeleteProductAsync(productId);
 
         Assert.IsTrue(await _dataRepository.GetProductCountAsync() == 0);
+
+        await _dataRepository.DeleteSupplierAsync(supplierId);
     }
 
     [TestMethod]
@@ -173,6 +177,10 @@ public class DatabaseTests
         await _dataRepository.DeleteOrderAsync(orderId);
 
         Assert.IsTrue(await _dataRepository.GetOrderCountAsync() == 0);
+
+        await _dataRepository.DeleteProductAsync(productId);
+        await _dataRepository.DeleteShopAsync(shopId);
+        await _dataRepository.DeleteSupplierAsync(supplierId);
     }
 
     [TestMethod]
@@ -215,6 +223,11 @@ public class DatabaseTests
         await _dataRepository.DeleteEventAsync(eventId);
 
         Assert.IsTrue(await _dataRepository.GetEventCountAsync() == 0);
+
+        await _dataRepository.DeleteOrderAsync(orderId);
+        await _dataRepository.DeleteProductAsync(productId);
+        await _dataRepository.DeleteShopAsync(shopId);
+        await _dataRepository.DeleteSupplierAsync(supplierId);
     }
 
     [TestMethod]
@@ -256,5 +269,10 @@ public class DatabaseTests
         await _dataRepository.DeleteOrderStatusAsync(orderStatusId);
 
         Assert.IsTrue(await _dataRepository.GetOrderStatusCountAsync() == 0);
+
+        await _dataRepository.DeleteOrderAsync(orderId);
+        await _dataRepository.DeleteProductAsync(productId);
+        await _dataRepository.DeleteShopAsync(shopId);
+        await _dataRepository.DeleteSupplierAsync(supplierId);
     }
 }

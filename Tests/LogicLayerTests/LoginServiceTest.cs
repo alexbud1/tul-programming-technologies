@@ -111,7 +111,6 @@ namespace LogicLayer.UnitTests
             _dataRepositoryMock.Verify(x => x.UpdateOrderStatusAsync(orderStatusId, OrderStatusEnum.Completed, orderId), Times.Once);
         }
 
-
         [TestMethod]
         public void FindOrders_SupplierLogged_Success()
         {
@@ -135,9 +134,9 @@ namespace LogicLayer.UnitTests
             orderStatusMock.Setup(x => x.OrderId).Returns(orderId);
 
             var orderStatuses = new Dictionary<string, IOrderStatus>
-    {
-        { "test", orderStatusMock.Object }
-    };
+            {
+                { "test", orderStatusMock.Object }
+            };
 
             _dataRepositoryMock.Setup(x => x.GetProductAsync(productId)).Returns(Task.FromResult<IProduct>(productMock.Object));
             _dataRepositoryMock.Setup(x => x.GetSupplierAsync(It.IsAny<string>())).Returns(Task.FromResult<ISupplier>(supplierMock.Object));
@@ -154,9 +153,6 @@ namespace LogicLayer.UnitTests
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(orderId, result[0].OrderId);
         }
-
-
-
 
         [TestMethod]
         public void FindOrders_ShopLogged_ReturnsOrders()
@@ -195,13 +191,118 @@ namespace LogicLayer.UnitTests
             Assert.AreEqual(orderId, result[0].OrderId);
         }
 
-
-
-
         [TestMethod]
         public void FindOrders_NotLogged_ThrowsException()
         {
             Assert.ThrowsException<Exception>(() => _loginService.FindOrders());
+        }
+
+        [TestMethod]
+        public void FindShops_AdminLogged_ReturnsShops()
+        {
+            // Arrange
+            var shop1 = new Mock<IShop>();
+            var shop2 = new Mock<IShop>();
+            var shop3 = new Mock<IShop>();
+
+            var shops = new Dictionary<string, IShop>
+            {
+                { "1", shop1.Object },
+                { "2", shop2.Object },
+                { "3", shop3.Object }
+            };
+
+            _dataRepositoryMock.Setup(x => x.GetShopsAsync()).ReturnsAsync(shops);
+
+            _loginService.Login(ILoginService.LoginChoiceEnum.Admin, "");
+
+            // Act
+            var result = _loginService.FindShops();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.Count);
+            Assert.IsTrue(result.Contains(shop1.Object));
+            Assert.IsTrue(result.Contains(shop2.Object));
+            Assert.IsTrue(result.Contains(shop3.Object));
+        }
+
+        [TestMethod]
+        public void FindShops_NotAdmin_ThrowsException()
+        {
+            Assert.ThrowsException<Exception>(() => _loginService.FindShops());
+        }
+
+        [TestMethod]
+        public void FindSuppliers_AdminLogged_ReturnsSuppliers()
+        {
+            // Arrange
+            var supplier1 = new Mock<ISupplier>();
+            var supplier2 = new Mock<ISupplier>();
+            var supplier3 = new Mock<ISupplier>();
+
+            var suppliers = new Dictionary<string, ISupplier>
+            {
+                { "1", supplier1.Object },
+                { "2", supplier2.Object },
+                { "3", supplier3.Object }
+            };
+
+            _dataRepositoryMock.Setup(x => x.GetSuppliersAsync()).ReturnsAsync(suppliers);
+
+            _loginService.Login(ILoginService.LoginChoiceEnum.Admin, "");
+
+            // Act
+            var result = _loginService.FindSuppliers();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.Count);
+            Assert.IsTrue(result.Contains(supplier1.Object));
+            Assert.IsTrue(result.Contains(supplier2.Object));
+            Assert.IsTrue(result.Contains(supplier3.Object));
+        }
+
+        [TestMethod]
+        public void FindSuppliers_NotAdmin_ThrowsException()
+        {
+            Assert.ThrowsException<Exception>(() => _loginService.FindSuppliers());
+        }
+
+        [TestMethod]
+        public void FindProducts_AdminLogged_ReturnsProducts()
+        {
+            // Arrange
+            var product1 = new Mock<IProduct>();
+            var product2 = new Mock<IProduct>();
+            var product3 = new Mock<IProduct>();
+
+            var products = new Dictionary<string, IProduct>
+            {
+                { "1", product1.Object },
+                { "2", product2.Object },
+                { "3", product3.Object }
+            };
+
+            _dataRepositoryMock.Setup(x => x.GetProductsAsync()).ReturnsAsync(products);
+
+            _loginService.Login(ILoginService.LoginChoiceEnum.Admin, "");
+
+            // Act
+            var result = _loginService.FindProducts();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.Count);
+            Assert.IsTrue(result.Contains(product1.Object));
+            Assert.IsTrue(result.Contains(product2.Object));
+            Assert.IsTrue(result.Contains(product3.Object));
+        }
+
+        [TestMethod]
+        public void FindProducts_NotAdmin_ThrowsException()
+        {
+            Assert.ThrowsException<Exception>(() => _loginService.FindProducts());
         }
     }
 }

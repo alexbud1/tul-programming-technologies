@@ -36,6 +36,14 @@ public interface ILoginService
     void SetCancelled(string orderStatusId);
 
     #endregion Status
+
+    #region AdminOnlyFunctions
+
+    List<IShop> FindShops();
+    List<ISupplier> FindSuppliers();
+    List<IProduct> FindProducts();
+
+    #endregion AdminOnlyFunctions
         
     public enum LoginChoiceEnum
     {

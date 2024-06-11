@@ -4,11 +4,11 @@ using System.Collections.Immutable;
 
 namespace LogicLayer.Implementations;
 
-public class LoginService: ILoginService
+public class LoginService : ILoginService
 {
     #region private attributes
 
-    private IShop? _shop ;
+    private IShop? _shop;
     private ISupplier? _supplier;
     private bool _shopLogged = false;
     private bool _supplierLogged = false;
@@ -26,7 +26,7 @@ public class LoginService: ILoginService
     #region public functions
 
     #region Login
-    public bool Login(ILoginService.LoginChoiceEnum loginChoice, string id="")
+    public bool Login(ILoginService.LoginChoiceEnum loginChoice, string? id = "")
     {
         switch (loginChoice)
         {
@@ -35,7 +35,7 @@ public class LoginService: ILoginService
                 break;
             case ILoginService.LoginChoiceEnum.Shop:
                 _shop = _dataRepository.GetShopAsync(id).Result;
-                if (_shop == null) throw new NullReferenceException("Shop not found"+ _shop.ShopId);
+                if (_shop == null) throw new NullReferenceException("Shop not found" + _shop.ShopId);
                 _shopLogged = true;
                 break;
             case ILoginService.LoginChoiceEnum.Supplier:
@@ -55,7 +55,8 @@ public class LoginService: ILoginService
         if (Enum.IsDefined(typeof(ILoginService.LoginChoiceEnum), loginChoice))
         {
             return Login((ILoginService.LoginChoiceEnum)loginChoice, id);
-        } else throw new ArgumentException("Login choice does not exist");
+        }
+        else throw new ArgumentException("Login choice does not exist");
     }
 
     public void Logout()
@@ -94,9 +95,9 @@ public class LoginService: ILoginService
             if (product == null) throw new NullReferenceException("No product found with id: " + productId);
 
             string orderStatusId = Guid.NewGuid().ToString();
-            while(orderStatusId == _dataRepository.GetOrderStatusAsync(orderStatusId).Result.OrderStatusId)
+            while (orderStatusId == _dataRepository.GetOrderStatusAsync(orderStatusId).Result.OrderStatusId)
                 orderStatusId = Guid.NewGuid().ToString();
-            
+
             // Create order and associate with product
             _dataRepository.AddOrderAsync(product.ProductId, _shop.ShopId, orderStatusId);
         }
@@ -118,7 +119,7 @@ public class LoginService: ILoginService
     #region Receiving order logic
 
     //Supplier access
-    public List <IOrderStatus> FindOrders()
+    public List<IOrderStatus> FindOrders()
     {
         if (_supplierLogged)
         {
@@ -129,25 +130,28 @@ public class LoginService: ILoginService
                     ).Result.
                     SupplierId == _supplier.SupplierId);
             return orders.Select(p => p.Value).ToList();
-        } else if (_shopLogged)
+        }
+        else if (_shopLogged)
         {
             var orders = _dataRepository.GetOrderStatusesAsync().Result.
                 Where(p => _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
                 ShopId == _shop.ShopId);
-                
+
             return orders.Select(p => p.Value).ToList();
         }
         else throw new Exception("Not logged to a supplier or shop, or admin");
     }
 
-    private List<IOrderStatus> FindOrderStatusesForShop(string shopId) { 
+    private List<IOrderStatus> FindOrderStatusesForShop(string shopId)
+    {
         var orders = _dataRepository.GetOrderStatusesAsync().Result.
             Where(p => _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
             ShopId == shopId);
         return orders.Select(p => p.Value).ToList();
     }
 
-    private List<IOrderStatus> FindOrderStatusesForSupplier(string supplierId) { 
+    private List<IOrderStatus> FindOrderStatusesForSupplier(string supplierId)
+    {
         var orders = _dataRepository.GetOrderStatusesAsync().Result.
             Where(p => _dataRepository.GetProductAsync(
                 _dataRepository.GetOrderAsync(p.Value.OrderId).Result.
@@ -163,7 +167,8 @@ public class LoginService: ILoginService
             var order = FindOrderStatusesForSupplier(_supplier?.SupplierId).Find(p => p.OrderId == id);
             if (order == null) throw new NullReferenceException("Order not found.");
             return order;
-        } else if (_shopLogged)
+        }
+        else if (_shopLogged)
         {
             var order = FindOrderStatusesForShop(_shop?.ShopId).Find(p => p.OrderId == id);
             if (order == null) throw new NullReferenceException("Order not found.");
@@ -235,6 +240,37 @@ public class LoginService: ILoginService
     }
 
     #endregion Status setting
+
+    #region AdminOnlyFunctions
+
+    public List<IShop> FindShops()
+    {
+        if (_adminLogged)
+        {
+            return _dataRepository.GetShopsAsync().Result.Values.ToList();
+        }
+        else throw new Exception("Not logged as admin");
+    }
+
+    public List<ISupplier> FindSuppliers()
+    {
+        if (_adminLogged)
+        {
+            return _dataRepository.GetSuppliersAsync().Result.Values.ToList();
+        }
+        else throw new Exception("Not logged as admin");
+    }
+
+    public List<IProduct> FindProducts()
+    {
+        if (_adminLogged)
+        {
+            return _dataRepository.GetProductsAsync().Result.Values.ToList();
+        }
+        else throw new Exception("Not logged as admin");
+    }
+
+    #endregion AdminOnlyFunctions
 
     #endregion public functions
 }

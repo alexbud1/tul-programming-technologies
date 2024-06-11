@@ -23,11 +23,18 @@ public class NavigationService
         }
     }
 
-    public IDataRepository DataLayer { get; }
-    public ILoginService LogicLayer { get; }
+    public IDataRepository DataLayer { get => dataLayer; }
+    public ILoginService LogicLayer { get => logicLayer; }
 
     // Dictionary to hold the ViewModels
     private Dictionary<Type, object> viewModels = new Dictionary<Type, object>();
+
+    public NavigationService(IDataRepository dataLayer, ILoginService logicLayer)
+    {
+        this.dataLayer = dataLayer;
+        this.logicLayer = logicLayer;
+        _currentViewModel = GetOrCreateViewModel<LoginViewModel>();
+    }
 
     public NavigationService()
     {
@@ -51,7 +58,16 @@ public class NavigationService
         }
 
         // Create the ViewModel and add it to the dictionary
-        viewModel = Activator.CreateInstance<T>();
+        //if (typeof(T) == typeof(LoginViewModel))
+        //{
+            viewModel = (T)Activator.CreateInstance(typeof(T), this);
+        //}
+        /*else
+        {
+            throw new Exception("ViewModel not found");
+            //viewModel = Activator.CreateInstance<T>();
+        }*/
+
         viewModels.Add(typeof(T), viewModel);
 
         return viewModel as T;

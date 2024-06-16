@@ -11,7 +11,7 @@ public class NavigationService
     private readonly IDataRepository dataLayer;
     private readonly ILoginService logicLayer;
 
-    private object _currentViewModel;
+    private object? _currentViewModel;
 
     public object CurrentViewModel
     {
@@ -50,30 +50,26 @@ public class NavigationService
         CurrentViewModel = viewModel;
     }
 
-    private T GetOrCreateViewModel<T>() where T : class
+    private T? GetOrCreateViewModel<T>() where T : class
     {
         if (viewModels.TryGetValue(typeof(T), out var viewModel))
         {
             return viewModel as T;
         }
 
-        // Create the ViewModel and add it to the dictionary
-        //if (typeof(T) == typeof(LoginViewModel))
-        //{
-            viewModel = (T)Activator.CreateInstance(typeof(T), this);
-        //}
-        /*else
-        {
-            throw new Exception("ViewModel not found");
-            //viewModel = Activator.CreateInstance<T>();
-        }*/
+        viewModel = Activator.CreateInstance(typeof(T), this) as T;
 
-        viewModels.Add(typeof(T), viewModel);
+        if (viewModel != null)
+        {
+            viewModels.Add(typeof(T), viewModel);
+        }
 
         return viewModel as T;
     }
 
-    public event Action CurrentViewModelChanged;
+
+
+    public event Action? CurrentViewModelChanged;
 
     protected virtual void OnCurrentViewModelChanged()
     {

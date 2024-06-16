@@ -1,12 +1,17 @@
 ﻿Imports Microsoft.Extensions.DependencyInjection
 Imports ViewModel
-Imports [Shared]
 Imports System.Windows.Navigation
+Imports System.Windows
 
 Partial Public Class LoginPanel
-    Public Sub New()
+    Inherits Window
+
+    Private ReadOnly _navigationService As NavigationService
+
+    Public Sub New(navigationService As NavigationService)
         InitializeComponent()
-        Dim navigationService = New NavigationService()
-        DataContext = New LoginViewModel(navigationService)
+        _navigationService = navigationService
+
+        Me.DataContext = _navigationService.CurrentViewModel
     End Sub
 End Class

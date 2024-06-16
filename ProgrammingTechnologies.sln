@@ -30,7 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel", "ViewModel\View
 		{DDFF6D97-235B-442E-A781-F453123B4315} = {DDFF6D97-235B-442E-A781-F453123B4315}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayerTests", "PresentationLayerTests\PresentationLayerTests.csproj", "{69602295-2D02-43AB-A589-593983CA4D3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLayerTests", "PresentationLayerTests\PresentationLayerTests.csproj", "{69602295-2D02-43AB-A589-593983CA4D3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewWithCs", "ViewWithCs\ViewWithCs.csproj", "{D67BC0E8-DDFD-483E-8E66-7871D7DC336E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,10 @@ Global
 		{69602295-2D02-43AB-A589-593983CA4D3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69602295-2D02-43AB-A589-593983CA4D3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69602295-2D02-43AB-A589-593983CA4D3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D67BC0E8-DDFD-483E-8E66-7871D7DC336E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D67BC0E8-DDFD-483E-8E66-7871D7DC336E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D67BC0E8-DDFD-483E-8E66-7871D7DC336E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D67BC0E8-DDFD-483E-8E66-7871D7DC336E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{75D34013-2B98-4207-985C-15444278C1A4} = {0D9E8784-C965-4A78-8EEB-13EA420242BC}
 		{6A934257-9044-4D00-8983-9364C1A47DEB} = {CBF7DDB2-4414-404F-8832-F9ECABA99DD8}
 		{69602295-2D02-43AB-A589-593983CA4D3D} = {1D09704D-8F75-45C4-8DBA-A328A462C0C4}
+		{D67BC0E8-DDFD-483E-8E66-7871D7DC336E} = {0D9E8784-C965-4A78-8EEB-13EA420242BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7CD1409-96BD-4097-BB8A-42BF15B9217C}

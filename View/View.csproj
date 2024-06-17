@@ -9,19 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Application.xaml.vb" />
+    <Compile Remove="MainWindow.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="Application.xaml" />
+    <Page Remove="MainWindow.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <ApplicationDefinition Include="Application.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Application.xaml.vb" />
+    <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

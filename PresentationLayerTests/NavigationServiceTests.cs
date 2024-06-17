@@ -16,7 +16,9 @@ namespace Tests.PresentationLayerTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _navigationService = new NavigationService();
+            var dataLayer = new DataLayer.Implementations.DataRepository(new DataLayer.Implementations.DataContext());
+            var logicLayer = new LogicLayer.Implementations.LoginService(dataLayer);
+            _navigationService = new NavigationService(dataLayer, logicLayer);
             _adminPanelViewModelMock = new Mock<AdminViewModel>();
             _loginServiceMock = new Mock<ILoginService>();
         }
@@ -31,4 +33,5 @@ namespace Tests.PresentationLayerTests
             Assert.IsInstanceOfType(currentViewModel, typeof(LoginViewModel));
         }
     }
+
 }

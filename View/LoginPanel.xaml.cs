@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using ViewModel;
 
-namespace ViewModel
+namespace View
 {
-    public class SupplierViewModel
+    public partial class LoginPanel : Window
     {
         private readonly NavigationService _navigationService;
 
-        public RelayCommand NavigateBackCommand { get; }
-
-        public SupplierViewModel(NavigationService navigationService)
+        public LoginPanel(NavigationService navigationService)
         {
+            InitializeComponent();
             _navigationService = navigationService;
-            NavigateBackCommand = new RelayCommand(_ => _navigationService.NavigateTo<LoginViewModel>());
+
+            this.DataContext = _navigationService.CurrentViewModel;
         }
     }
 }

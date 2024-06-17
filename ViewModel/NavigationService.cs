@@ -6,73 +6,78 @@ using ViewModel;
 using DataLayer.Implementations;
 using LogicLayer.Implementations;
 
-public class NavigationService
+namespace ViewModel
 {
-    private readonly IDataRepository dataLayer;
-    private readonly ILoginService logicLayer;
 
-    private object? _currentViewModel;
-
-    public object CurrentViewModel
+    public class NavigationService
     {
-        get => _currentViewModel;
-        private set
+        private readonly IDataRepository dataLayer;
+        private readonly ILoginService logicLayer;
+
+        private object? _currentViewModel;
+
+        public object CurrentViewModel
         {
-            _currentViewModel = value;
-            OnCurrentViewModelChanged();
+            get => _currentViewModel;
+            private set
+            {
+                _currentViewModel = value;
+                OnCurrentViewModelChanged();
+            }
         }
-    }
 
-    public IDataRepository DataLayer { get => dataLayer; }
-    public ILoginService LogicLayer { get => logicLayer; }
+        public IDataRepository DataLayer { get => dataLayer; }
+        public ILoginService LogicLayer { get => logicLayer; }
 
-    // Dictionary to hold the ViewModels
-    private Dictionary<Type, object> viewModels = new Dictionary<Type, object>();
+        // Dictionary to hold the ViewModels
+        private Dictionary<Type, object> viewModels = new Dictionary<Type, object>();
 
-    public NavigationService(IDataRepository dataLayer, ILoginService logicLayer)
-    {
-        this.dataLayer = dataLayer;
-        this.logicLayer = logicLayer;
-        _currentViewModel = GetOrCreateViewModel<LoginViewModel>();
-    }
-
-    public NavigationService()
-    {
-        dataLayer = new DataRepository(new DataContext());
-        logicLayer = new LoginService(dataLayer);
-        _currentViewModel = GetOrCreateViewModel<LoginViewModel>();
-    }
-
-    public void NavigateTo<T>() where T : class
-    {
-        // Get or create the ViewModel
-        var viewModel = GetOrCreateViewModel<T>();
-        CurrentViewModel = viewModel;
-    }
-
-    private T? GetOrCreateViewModel<T>() where T : class
-    {
-        if (viewModels.TryGetValue(typeof(T), out var viewModel))
+        public NavigationService(IDataRepository dataLayer, ILoginService logicLayer)
         {
+            this.dataLayer = dataLayer;
+            this.logicLayer = logicLayer;
+            _currentViewModel = GetOrCreateViewModel<LoginViewModel>();
+        }
+
+        /*public NavigationService()
+        {
+            dataLayer = new DataRepository(new DataContext());
+            logicLayer = new LoginService(dataLayer);
+            _currentViewModel = GetOrCreateViewModel<LoginViewModel>();
+        }*/
+
+        public void NavigateTo<T>() where T : class
+        {
+            // Get or create the ViewModel
+            var viewModel = GetOrCreateViewModel<T>();
+            CurrentViewModel = viewModel;
+        }
+
+        private T? GetOrCreateViewModel<T>() where T : class
+        {
+            if (viewModels.TryGetValue(typeof(T), out var viewModel))
+            {
+                return viewModel as T;
+            }
+
+            viewModel = Activator.CreateInstance(typeof(T), this) as T;
+
+            if (viewModel != null)
+            {
+                viewModels.Add(typeof(T), viewModel);
+            }
+
             return viewModel as T;
         }
 
-        viewModel = Activator.CreateInstance(typeof(T), this) as T;
 
-        if (viewModel != null)
+
+        public event Action? CurrentViewModelChanged;
+
+        protected virtual void OnCurrentViewModelChanged()
         {
-            viewModels.Add(typeof(T), viewModel);
+            CurrentViewModelChanged?.Invoke();
         }
-
-        return viewModel as T;
     }
 
-
-
-    public event Action? CurrentViewModelChanged;
-
-    protected virtual void OnCurrentViewModelChanged()
-    {
-        CurrentViewModelChanged?.Invoke();
-    }
 }

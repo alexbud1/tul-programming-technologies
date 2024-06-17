@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Presentation.View.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Presentation.View;assembly=Presentation"
+             xmlns:viewmodels="clr-namespace:Presentation.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="480" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <viewmodels:HomeViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Background="#FFE2E2E2">
+
+        <StackPanel Grid.Column="0" 
+                    Orientation="Horizontal" VerticalAlignment="Top" RenderTransformOrigin="0.517,0.556" Margin="278,25,278,0" Height="71">
+            <TextBlock 
+                Width="244" 
+                Text="Library" 
+                TextAlignment="Center" TextWrapping="Wrap" 
+                FontSize="48" FontWeight="ExtraBold" RenderTransformOrigin="0.286,-1.91"/>
+        </StackPanel>
+
+        <StackPanel 
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,240,0,0" RenderTransformOrigin="1.711,-0.421">
+            <Button 
+                Height="40" Width="405"
+                x:Name="startButton" Content="Enter"
+                Command="{Binding StartAppCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                Background="#FF87FA9D" BorderBrush="#FF143D00" Click="startButton_Click" />
+            <Button 
+                Height="40" Width="160" Margin="0,15,0,0"
+                x:Name="exitButton" Content="Exit"
+                Command="{Binding ExitAppCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                Background="#FFFF1A00" BorderBrush="Black"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

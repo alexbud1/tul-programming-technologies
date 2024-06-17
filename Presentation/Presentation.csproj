@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Service\Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModel\Event\" />
+    <Folder Include="ViewModel\User\" />
+    <Folder Include="ViewModel\State\" />
+    <Folder Include="ViewModel\Book\" />
+    <Folder Include="View\Event\" />
+    <Folder Include="View\Book\" />
+    <Folder Include="View\User\" />
+    <Folder Include="View\State\" />
+  </ItemGroup>
+
+</Project>

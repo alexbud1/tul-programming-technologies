@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using ViewModel;
 using LogicLayer.API;
-using ViewModel;
 
 public class AdminViewModel
 {

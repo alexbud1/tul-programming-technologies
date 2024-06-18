@@ -26,15 +26,15 @@ namespace ViewModel
             }
         }
 
-        public IDataRepository DataLayer { get => dataLayer; }
+        //public IDataRepository DataLayer { get => dataLayer; }
         public ILoginService LogicLayer { get => logicLayer; }
 
         // Dictionary to hold the ViewModels
         private Dictionary<Type, object> viewModels = new Dictionary<Type, object>();
 
-        public NavigationService(IDataRepository dataLayer, ILoginService logicLayer)
+        public NavigationService(ILoginService logicLayer)
         {
-            this.dataLayer = dataLayer;
+            //this.dataLayer = dataLayer;
             this.logicLayer = logicLayer;
             _currentViewModel = GetOrCreateViewModel<LoginViewModel>();
         }

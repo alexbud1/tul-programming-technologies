@@ -1,5 +1,4 @@
-﻿using DataLayer.API;
-using LogicLayer.API;
+﻿using LogicLayer.API;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -9,7 +8,7 @@ namespace ViewModel
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
-        private readonly IDataRepository _dataRepository;
+        //private readonly IDataRepository _dataRepository;
         private readonly ILoginService _loginService;
         private readonly NavigationService NavigationService;
 
@@ -43,7 +42,6 @@ namespace ViewModel
         public LoginViewModel(NavigationService navigationService)
         {
             NavigationService = navigationService;
-            _dataRepository = NavigationService.DataLayer;
             _loginService = NavigationService.LogicLayer;
 
             AdminLoginCommand = new RelayCommand(ExecuteAdminLogin, CanExecuteAdminLogin);

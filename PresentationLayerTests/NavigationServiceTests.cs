@@ -18,7 +18,7 @@ namespace Tests.PresentationLayerTests
         {
             var dataLayer = new DataLayer.Implementations.DataRepository(new DataLayer.Implementations.DataContext());
             var logicLayer = new LogicLayer.Implementations.LoginService(dataLayer);
-            _navigationService = new NavigationService(dataLayer, logicLayer);
+            _navigationService = new NavigationService(logicLayer);
             _adminPanelViewModelMock = new Mock<AdminViewModel>();
             _loginServiceMock = new Mock<ILoginService>();
         }

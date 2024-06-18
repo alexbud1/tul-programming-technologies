@@ -20,4 +20,7 @@
     <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppStartup\AppStartup.csproj" />
+  </ItemGroup>
 </Project>

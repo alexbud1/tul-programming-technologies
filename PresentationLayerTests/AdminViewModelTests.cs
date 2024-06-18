@@ -27,7 +27,7 @@ namespace Tests.ViewModelTests
             _loginServiceMock.Setup(x => x.Login(It.IsAny<ILoginService.LoginChoiceEnum>(), It.IsAny<string>())).Returns(true);
 
             _repositoryMock = new Mock<IDataRepository>();
-            _navigationService = new Mock<NavigationService>(_repositoryMock.Object, _loginServiceMock.Object);
+            _navigationService = new Mock<NavigationService>(_loginServiceMock.Object);
             //_navigationService.SetupGet(x => x.LogicLayer).Returns(_loginServiceMock.Object);
             //_navigationService.SetupGet(x => x.DataLayer).Returns(_repositoryMock.Object);
 
